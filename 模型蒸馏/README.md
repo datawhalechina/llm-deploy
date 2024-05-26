@@ -5,36 +5,36 @@
 ## Roadmap
 ### 1. 蒸馏基础
 
-- 为什么要做LLM蒸馏
-- 和小模型蒸馏的不同
-- LLM蒸馏的分类
-     - 白盒
-     - 黑盒
+- 1.1 为什么要做LLM蒸馏
+- 1.2 和小模型蒸馏的不同
+- 1.3 LLM蒸馏的分类
+     - a. 白盒
+     - b. 黑盒
 
 
 基于分类模型的蒸馏、小模型蒸馏，这部分请参考datawhale另一个关于模型压缩的项目[https://github.com/datawhalechina/awesome-compression/blob/main/docs/ch06/ch06.md](https://github.com/datawhalechina/awesome-compression/blob/main/docs/ch06/ch06.md)）
 
 ### 2. 标准知识蒸馏（白盒蒸馏）
--  概述
+-  2.1 概述
       - 何时使用白盒蒸馏
--  MiniLLM
--  GKD
+-  2.2 MiniLLM
+-  2.3 GKD
 
 ### 3. 基于涌现能力的蒸馏（黑盒蒸馏）
--  概述
+-  3.1 概述
       - 什么是涌现能力
       - 与标准蒸馏的不同
       - 何时使用黑盒蒸馏
-- 基于In-context learning 蒸馏算法与实现
+- 3.2 基于In-context learning 蒸馏算法与实现
 
-- 基于CoT蒸馏算法与实现-找一种作为代码例子简单实现的
+- 3.3 基于CoT蒸馏算法与实现-找一种作为代码例子简单实现的
 
-- 指令跟随蒸馏算法与实现
+- 3.4 指令跟随蒸馏算法与实现
 
 
 ### 4. 总结
-- 前沿相关工作扩展
-- 总结
+- 4.1 前沿相关工作扩展
+- 4.2 总结
 
 ## 参与贡献
 
