@@ -7,6 +7,9 @@
       * [2.1 蒸馏](chapter2/chapter2_1.md)
   * 第3章 剪枝
       * [3.1 剪枝](chapter3/chapter3_1.md)
+      * [3.2 非结构化剪枝](chapter3/chapter3_2.md)
+      * [3.3 结构化剪枝](chapter3/chapter3_3.md)
+      * [3.4 剪枝总结](chapter3/chapter3_4.md)
   * 第4章 低秩分解
       * [4.1 低秩分解](chapter4/chapter4_1.md)
 * 二、运行篇
