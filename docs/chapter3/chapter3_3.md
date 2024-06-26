@@ -6,11 +6,11 @@
 ## 相关基础
 
 
-## 相关工作
 
-### SparseGPT
 
-### Wanda
+## LLMPruner
+
+
 
 
 ## 参考文献
