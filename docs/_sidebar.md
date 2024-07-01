@@ -5,6 +5,8 @@
       * [1.1 量化](chapter1/chapter1_1.md)
   * 第2章 蒸馏
       * [2.1 蒸馏](chapter2/chapter2_1.md)
+      * [2.2 标准知识蒸馏](chapter2/chapter2_2.md)
+      * [2.3 基于涌现能力的蒸馏](chapter2/chapter2_3.md)
   * 第3章 剪枝
       * [3.1 剪枝](chapter3/chapter3_1.md)
       * [3.2 非结构化剪枝](chapter3/chapter3_2.md)
