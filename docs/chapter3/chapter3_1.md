@@ -64,7 +64,7 @@
 &emsp;&emsp;由于LLM参数多的特性，一般使用训练后剪枝的方法。剪枝问题可表示为：
 
 $$
-\operatorname{argmin}_{\text {mask } \mathbf{M}_e, \hat{\mathbf{w}}_{\ell}}\left\|\mathbf{W}_e \mathbf{X}_{\ell}-\left(\mathbf{M}_{\ell} \odot \hat{\mathbf{W}}_{\ell}\right) \mathbf{X}_{\ell}\right\|_2^2 
+\operatorname{argmin}_{\text {mask } \mathbf{M}_e, \hat{\mathbf{w}}_{\ell}}\left\|\mathbf{W}_e \mathbf{X}_{\ell}-\left(\mathbf{M}_{\ell} \odot \hat{\mathbf{W}}_{\ell}\right) \mathbf{X}_{\ell}\right\|_2^2
 $$
 
 &emsp;&emsp;其中，$\mathbf{X}_{\ell}$表示输入，$\mathbf{W}_e$表示权重，$\mathbf{M}_e$表示掩码，$\hat{\mathbf{W}}_{\ell}$表示剪枝后的权重。剪枝的目标是使剪枝前后的损失函数值尽可能接近。

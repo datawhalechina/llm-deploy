@@ -25,6 +25,9 @@
   * 第8章 并行
     * [8.1 并行](chapter8/chapter8_1.md)
   * 第9章 并发
-    * [9.1 并发](chapter9/chapter9_1.md)
+    * [9.1 并发](chapter9/chapter9_0.md)
+    * [9.2 异步](chapter9/chapter9_1.md)
+    * [9.3 批处理](chapter9/chapter9_2.md)
+    * [9.4 分布式](chapter9/chapter9_3.md)
   * 第10章 内存
     * [10.1 内存](chapter10/chapter10_1.md)
