@@ -123,6 +123,10 @@ $$
 \mathbf{S}_{i j}  = \left[|\mathbf{W}|^2 / \operatorname{diag}\left(\left(\mathbf{X}^T \mathbf{X}\right)^{-1}\right)\right]_{i j} \text { = }\left[|\mathbf{W}|^2 /\left(\operatorname{diag}\left(\mathbf{X}^T \mathbf{X}\right)\right)^{-1}\right]_{i j}=\left(\left|\mathbf{W}_{i j}\right| \cdot\left\|\mathbf{X}_j\right\|_2\right)^2
 $$
 
+&emsp;&emsp;与SparseGPT相比：
+- Wanda保持了幅度剪枝的简单性，不需要通过反向传播或任何二阶Hessian逆进行梯度计算，但在发现预训练中的稀疏网络方面也非常有效。
+- Wanda 可以通过 LLM 的一次前向传递来完成。在每一层，剪枝权重可以一次性确定，无需迭代过程。在实践中，计算Wanda的剪枝指标在剪枝LLMs方面比SparseGPT快300倍。
+- Wanda不需要对修剪网络进行权重更新，这表明 LLMs 具有精确的有效稀疏子网络，而不是仅仅存在于原始权重的邻域中。
 
 ## 参考文献
 

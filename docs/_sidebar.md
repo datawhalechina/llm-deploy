@@ -8,7 +8,7 @@
       * [2.2 标准知识蒸馏](chapter2/chapter2_2.md)
       * [2.3 基于涌现能力的蒸馏](chapter2/chapter2_3.md)
   * 第3章 剪枝
-      * [3.1 剪枝](chapter3/chapter3_1.md)
+      * [3.1 剪枝概述](chapter3/chapter3_1.md)
       * [3.2 非结构化剪枝](chapter3/chapter3_2.md)
       * [3.3 结构化剪枝](chapter3/chapter3_3.md)
       * [3.4 剪枝总结](chapter3/chapter3_4.md)
