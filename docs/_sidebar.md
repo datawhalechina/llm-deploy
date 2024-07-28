@@ -23,7 +23,10 @@
     * [7.1 框架](chapter7/chapter7_1.md)
 * 三、优化篇
   * 第8章 并行
-    * [8.1 并行](chapter8/chapter8_1.md)
+    * [8.1 并行概述](chapter8/chapter8_1.md)
+    * [8.2 数据并行](chapter8/chapter8_2.md)
+    * [8.3 流水线并行](chapter8/chapter8_3.md)
+    * [8.4 张量并行](chapter8/chapter8_4.md)
   * 第9章 并发
     * [9.1 并发](chapter9/chapter9_0.md)
     * [9.2 异步](chapter9/chapter9_1.md)
