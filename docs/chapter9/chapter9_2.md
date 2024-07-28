@@ -77,53 +77,44 @@ vLLM 是一个推理服务，采用 PagedAttention 技术管理 kv-cache ，使�
 | Block 3 | you, only, live, <空闲> | 内部碎片化，最后一个槽位未使用                |
 | Block 4 | <空闲>, <空闲>, <空闲>, <空闲>| 完全未使用，没有产生外部碎片              |
 
-可以看到分页后，外部碎片被消除了，原先 2,038 + 507 的内部碎片只剩 1 + 1，每个页内部的数据是连续存储的，而通过页表的索引，不同的页又可以分散地存储在内存中。
+可以看到分页后，外部碎片被消除了，原先 2,038 + 507 的内部碎片只剩 1 + 1，内存浪费只会发生在最后一个块中，十分接近最优利用率。
 。
 
 ![](./images/block-allocation.gif)
-
-
-### KV Manager
-
-- kv blocks
-- blocks table
-
+> 序列生成示例，每个块内部的数据是连续存储的，而通过块表的索引，不同的块又可以分散地存储在内存中。
 
 
 ### 使用示例（待完善）
-```python
-!pip3 install vllm
+
+TODO: vllm with webui(gradio, streamlit or openwebui)
+
+官方示例：
+```sh
+$ pip install vllm
 ```
 
-安装完成后，导入 LLM、SamplingParams 和 destroy_model_parallel
-
-使用参数进行初始化，例如模型和分词器的名称或路径，以及内部处理的数据类型（设置为 'float16' ）。
-
-使用 SamplingParams 类定义采样参数，如 `temperature`、`top_p` 和 `top_k`，以控制文本生成过程中标记的随机性和选择。最后，在考虑输入提示的情况下，使用初始化模型和采样参数执行文本生成。
-
 ```python
-from vllm import LLM, SamplingParams
-from vllm.model_executor.parallel_utils.parallel_state 
-import destroy_model_parallel
+from vllm import LLM
 
-model = LLM(
-    model=model_name,
-    tokenizer=tokenizer_name,
-    dtype='float16'
-    )
-
-sampling_params = SamplingParams(
-    temperature=0.5,
-    top_p=0.95,
-    top_k=50
-    )
-
-outputs = model.generate(
-    self.prompt,
-    sampling_params
-    )
+prompts = ["Hello, my name is", "The capital of France is"]  # Sample prompts.
+llm = LLM(model="lmsys/vicuna-7b-v1.3")  # Create an LLM.
+outputs = llm.generate(prompts)  # Generate texts from the prompts.
 ```
 
+```sh
+$ python -m vllm.entrypoints.openai.api_server --model lmsys/vicuna-7b-v1.3
+```
+
+```sh
+$ curl http://localhost:8000/v1/completions \
+    -H "Content-Type: application/json" \
+    -d '{
+        "model": "lmsys/vicuna-7b-v1.3",
+        "prompt": "San Francisco is a",
+        "max_tokens": 7,
+        "temperature": 0
+    }'
+```
 
 ## LMDeploy（动手实践）
 
