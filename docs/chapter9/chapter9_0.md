@@ -138,7 +138,8 @@ $$TPS = (要生成的\:token\:数量) / 延迟$$
 
 批处理技术在大语言模型的高效运作中不可或缺。
 
-- vLLM 通过 continuous batch 和动态批处理（dynamic batching）来优化性能。
+- vLLM 通过动态批处理（dynamic batching）和 pagedattention 来优化性能。
+
 
 ## 3. 分布式
 
