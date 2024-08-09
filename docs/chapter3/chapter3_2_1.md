@@ -90,5 +90,5 @@ $$
 
 ## 参考链接
 
-- <https://zhuanlan.zhihu.com/p/656316235>
-- <https://zhuanlan.zhihu.com/p/680853298>
+- [Optimal Brain Surgeon公式推导](https://zhuanlan.zhihu.com/p/656316235)
+- [剪枝界的双弹瓦斯OBD与OBS](https://zhuanlan.zhihu.com/p/680853298)
