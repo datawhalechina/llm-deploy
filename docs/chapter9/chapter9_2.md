@@ -71,7 +71,6 @@ idx = next_idx
 
 ### PagedAttention
 
-
 这样的思想下，我们把前面所说的页称作块（block），把字节看作 token，把进程看作序列。
 
 ![](./images/paging.png)
@@ -95,6 +94,7 @@ idx = next_idx
 flashdecoding？
 
 TODO: 手撸 paged attention 基本推理？
+
 ### 解码算法
 
 vLLM 使用三种关键方法实现各种解码算法：
@@ -142,7 +142,7 @@ vLLM 使用引用计数机制来跟踪每个物理块被多少候选者共享。
 
 #### Prefix Caching
 
-前缀缓存是一种实验性的优化技术，通过缓存前缀的计算结果来减少重复计算，从而加速生成过程。这种方法特别适用于需要生成长文本的场景
+前缀缓存是一种实验性的优化技术，通过缓存前缀的计算结果（预计算）来减少重复计算，从而加速生成过程。这种方法特别适用于需要生成长文本的场景
 
 在某些场景（如机器翻译）中，多个输入提示可能共享一个常见的前缀，例如任务描述或示例：
 
@@ -152,10 +152,16 @@ vLLM 允许 LLM API 服务提供商提前存储共享前缀的 KV 缓存，减�
 
 ![](./images/shared_prefix.png)
 
+#### 混合解码
+
+vLLM 的 PagedAttention 允许同时处理具有不同解码偏好的请求，包括但不限于上述介绍的几种算法。
+
+这是通过一个共同的映射层实现的，该层将逻辑块转换为物理块。LLM 及其执行内核使用调度器提供的物理块 ID 工作，无需处理序列间复杂的内存共享模式。这种抽象使 vLLM 能够高效地批量处理具有不同解码需求的请求，提高了整体系统吞吐量。
 
 ### 使用示例（待完善）
 
 TODO: vllm with webui(gradio, streamlit or openwebui)
++ RAY
 
 官方示例：
 ```sh
@@ -186,7 +192,7 @@ $ curl http://localhost:8000/v1/completions \
 ```
 
 
-## LMDeploy（动手实践）
+## LMDeploy（待定：动手实践）
 
 LMDeploy 由 MMDeploy 和 MMRazor 团队联合开发，是涵盖了 LLM 任务的全套轻量化、部署和服务解决方案。
 

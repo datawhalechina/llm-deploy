@@ -122,13 +122,13 @@ $$TPS = (要生成的\:token\:数量) / 延迟$$
 
 ## 1. 异步处理
 
-&emsp;&emsp;异步处理是提升并发能力的关键之一。
+&emsp;&emsp; 异步处理是提升并发能力的关键之一。
 
 &emsp;&emsp; 会接触到：
 
 - 通过使用**异步队列**来处理网络请求，可以有效地提高系统的响应速度和处理能力。
 
-- 在 Nvidia Triton Server 中部署 vLLM（因为不太熟悉nv的东西，估计会改动项目）
+- 在 Nvidia Triton Server 中部署 vLLM（因为不太熟悉 nv 的东西，估计会改动项目）
 
 - LM Deploy
 
@@ -139,7 +139,6 @@ $$TPS = (要生成的\:token\:数量) / 延迟$$
 批处理技术在大语言模型的高效运作中不可或缺。
 
 - vLLM 通过动态批处理（dynamic batching）和 pagedattention 来优化性能。
-
 
 ## 3. 分布式
 
