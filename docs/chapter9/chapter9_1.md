@@ -2,6 +2,8 @@
 
 在预填充阶段，模型需要接收和处理来自不同用户的多个输入。这时可以利用**异步处理**技术来提高效率。
 
+先热身一下~
+
 ## 流式处理(Streaming)
 
 流式处理采用异步通信方式，减少了不必要的等待和阻塞，提高了系统的并发性能和吞吐量
@@ -42,61 +44,43 @@ if __name__ == "__main__":
 
 不过虽然对用户来说是流式的,但在底层 vLLM 仍然使用批处理来提高效率。它会预先生成一批 token,然后逐个返回给用户。
 
-### Server-Sent-Event
+热身结束!真正的并发性能提升主要来自于服务器架构、算法优化和硬件资源,我们以 vLLM 最近的更新内容为例:
 
-Server-Sent Events (SSE) 是一种允许服务器向客户端推送数据的 Web 技术,ChatGPT 网页应用就使用了它。它的工作原理相对简单但非常有效，让我们来深入了解一下:
 
-- 连接建立: 客户端通过常规的 HTTP 请求与服务器建立连接。这个请求通常包含一个特殊的头部 "Accept: text/event-stream"，告诉服务器客户端希望接收事件流。
+## 异步通信
 
-- 服务器响应: 服务器以 "Content-Type: text/event-stream" 响应，表明这是一个事件流。然后，服务器保持这个连接开放。
+在早期的 vLLM 架构中，API 服务器（API Server）和推理引擎（vLLM Engine）运行在同一个 Python 进程中。这意味着所有的 HTTP 请求都由同一进程处理，API Server 接收请求后直接调用 vLLM Engine 进行推理。虽然这种方式在负载较低时能够正常工作，但在高并发场景下，会引发性能瓶颈。
 
-- 数据传输: 服务器可以通过这个开放的连接持续发送数据。每条消息以 "data:" 开头，以两个换行符 "\n\n" 结束
+- CPU 资源竞争：API Server 和 vLLM Engine 都需要大量的 CPU 资源来处理网络请求、数据解析和模型推理。当它们共享同一个进程时，会导致 CPU 资源争用，降低系统的整体性能。
+  
+- GIL 限制：由于 Python 的全局解释器锁（GIL），多线程无法真正实现并行执行。这使得在同一进程中处理大量并发请求时，性能受到严重限制。
+  
+- 响应延迟增加：当 API Server 被繁重的推理任务阻塞时，新的请求可能无法及时得到处理，导致响应延迟增加，影响用户体验。
 
-在 FastAPI 中实现 SSE
-```python
-from fastapi import FastAPI
-from fastapi.responses import StreamingResponse
-import asyncio
+### 解决方案：进程分离与异步通信
 
-app = FastAPI()
+为了解决上述问题，vLLM 在 [PR#6883](https://github.com/vllm-project/vllm/pull/6883) 中引入了新的架构，将 API Server 和 vLLM Engine 分离为两个独立的进程。这两个进程之间通过 ZMQ（ZeroMQ）进行高效的异步通信。
 
-async def generate_messages():
-    messages = ["大语言", "模型", "真的是", "非常", "有趣"]
-    for message in messages:
-        yield f" {message}\n\n"
-        # 模拟推理时间
-        await asyncio.sleep(0.5)
-    yield " END\n\n"
+![](./images/vllm-zmq.png)
+> [ZMQ](https://zh.wikipedia.org/wiki/%C3%98MQ) 是一种高性能的异步消息库，能够支持异步消息传递，允许 API Server 非阻塞地将请求发给 vLLM Engine。
 
-@app.get("/sse")
-async def sse_endpoint():
-    return StreamingResponse(generate_messages(), media_type="text/event-stream")
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
-```
+- 进程隔离：API Server 专注于接收和解析 HTTP 请求，以及返回响应；vLLM Engine 专注于请求的调度和模型推理。这样，两个进程各自占用不同的 CPU 资源，互不干扰。
+- 异步通信：利用 ZMQ 的高性能消息传递机制，实现了进程间的异步通信，避免了同步阻塞，提高了系统的并发处理能力。
+- 资源优化：通过进程分离解耦，减少了 Python GIL 对多线程性能的限制，充分发挥多核 CPU 的优势。
 
-打开 `http://localhost:8000/sse` 就可以看到 SSE 的效果。
+采用新的架构后，vLLM 在高并发场景下的性能得到了显著提升：
 
-这张图展示了在一个多设备（如多GPU）环境下，如何通过异步通信和计算来优化模型的计算过程。具体来说，它描述了在每个设备上处理一层神经网络时的时间线，并展示了如何在计算过程中隐藏通信开销。
+![](./images/vllm-benchmark.png)
 
-图中主要元素解释：
-Scatter 和 Sparse Op：
+### 异步输出处理
 
-图中展示了每一层（Layer 1, Layer 2, …, Layer L）都有一个 Scatter 操作和一个 Sparse Op 操作。
-Scatter 操作通常是将数据分散到不同的设备上，以便进行并行处理。
-Sparse Op 是稀疏操作，可能是指在稀疏矩阵上的计算，这种计算通常只涉及到非零元素，因此可以通过分散计算提高效率。
-AllGather：
+异步处理的引入虽然会带来一定的延迟，但如果用少量延迟换取 GPU 利用率的提升显然是笔划算买卖。随着批量处理请求增加，系统的并发处理能力也随之增强。
 
-AllGather 是一个常见的通信操作，用于在所有设备之间收集数据。每个设备将它们的部分计算结果传递给其他设备，从而使所有设备都能够得到完整的数据集。
-在图中，AllGather 操作是在每一层的计算后进行的，用来收集每个设备的计算结果。
-Comm. (Communication)：
+![](./images/async-output.png)
 
-Comm. 表示设备之间的通信。图中展示了通信操作是异步进行的，即通信和计算是重叠的，通信开销被隐藏在计算过程之中。
-这种异步通信可以显著减少通信开销对整体计算速度的影响，因为通信操作在设备进行计算时已经开始，并且可以在计算结束之前完成。
-图的整体解释：
-异步通信与计算重叠：这张图的关键点在于展示如何通过异步通信与计算的重叠来优化多设备环境下的计算过程。AllGather 操作的通信开销被完全隐藏在计算过程中，使得通信对计算速度的影响最小化。
+在引入异步输出处理之前，GPU 在每次完成前向计算后，必须等待 CPU 完成输出处理才能继续执行下一步。这导致了大量的 GPU 空闲时间，限制了 GPU 计算资源的充分利用。
 
-分布式计算：每个设备只处理部分数据，并在每个计算阶段结束后通过 AllGather 操作将结果同步。这种方式可以在大规模并行计算中有效利用计算资源，减少设备之间的等待时间。
+通过引入异步输出处理，输出处理与模型前向计算并行进行。在执行第 $n$ 步计算时，vLLM 并不会等待第 $n$ 步的输出处理完成，而是立即开始第 $n+1$ 步的模型推理。此时，CPU 会并行处理第 $n$ 步的输出。
 
+由于 GPU 不再需要等待 CPU 处理输出数据，GPU 的计算资源得到了充分利用。这样可以减少 GPU 的空闲时间，提升吞吐量和整体性能，vLLM 的每个输出 token 的处理时间（Time-Per-Output-Token, TPOT）得到了显著优化。例如，在 Llama 70B 模型和 4xH100 GPU 的场景下，TPOT 提升了 8.7%，即 GPU 处理速度提高，使得推理能力大幅度增强。
