@@ -84,3 +84,7 @@ if __name__ == "__main__":
 通过引入异步输出处理，输出处理与模型前向计算并行进行。在执行第 $n$ 步计算时，vLLM 并不会等待第 $n$ 步的输出处理完成，而是立即开始第 $n+1$ 步的模型推理。此时，CPU 会并行处理第 $n$ 步的输出。
 
 由于 GPU 不再需要等待 CPU 处理输出数据，GPU 的计算资源得到了充分利用。这样可以减少 GPU 的空闲时间，提升吞吐量和整体性能，vLLM 的每个输出 token 的处理时间（Time-Per-Output-Token, TPOT）得到了显著优化。例如，在 Llama 70B 模型和 4xH100 GPU 的场景下，TPOT 提升了 8.7%，即 GPU 处理速度提高，使得推理能力大幅度增强。
+
+## 参考文章
+
+- [vLLM v0.6.0: 2.7x Throughput Improvement and 5x Latency Reduction](https://blog.vllm.ai/2024/09/05/perf-update.html)
