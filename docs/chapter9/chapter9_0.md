@@ -62,7 +62,7 @@ Transformer 会将这句话中的每个词转换成词嵌入，并使用自注�
 
 $$总体延迟 =  TTFT + (TPOT \times 要生成的\:token\:数量)$$
 
-&emsp;&emsp;从公示中可以看出，影响 TFTT 的主要因素有：
+&emsp;&emsp;从公式中可以看出，影响 TFTT 的主要因素有：
 
 - 输出长度：最重要的影响因素，因为它直接决定了 TPOT 部分的大小。输出越长，即需要生成的 token 数量越多，延迟时间也会相应增加。
 
@@ -70,6 +70,8 @@ $$总体延迟 =  TTFT + (TPOT \times 要生成的\:token\:数量)$$
 
 - 排队时间：由于硬件限制——尤其是 GPU 显存不足时，LLM 可能无法跟上用户的请求速度。这意味着部分输入请求需要先排队等候处理。这也正是 TTFT 成为一项普遍记录指标的原因所在，因为它能揭示模型服务器应对不同数量用户请求的能力如何，进而预示其在实际应用场景中的表现。如何在有限的显存下降低排队时间，便是提升并发的一个方向。
   
+![](./images/latency.png)
+
 ### 2. 吞吐量
 
 &emsp;&emsp;LLM 的“吞吐量”指标衡量的是在给定时间范围内它可以处理的请求数量或产生输出的数量。通常通过两种方式来衡量：**每秒请求数（QPS）** 和 **每秒输出 tokens 数（TPS）**，你一般可以在模型供应商的开发文档中找到这两个指标。
@@ -120,13 +122,13 @@ $$TPS = (要生成的\:token\:数量) / 延迟$$
 
 ## 1. 异步处理
 
-&emsp;&emsp;异步处理是提升并发能力的关键之一。
+&emsp;&emsp; 异步处理是提升并发能力的关键之一。
 
 &emsp;&emsp; 会接触到：
 
 - 通过使用**异步队列**来处理网络请求，可以有效地提高系统的响应速度和处理能力。
 
-- 在 Nvidia Triton Server 中部署 vLLM（因为不太熟悉nv的东西，估计会改动项目）
+- 在 Nvidia Triton Server 中部署 vLLM（因为不太熟悉 nv 的东西，估计会改动项目）
 
 - LM Deploy
 
@@ -136,7 +138,7 @@ $$TPS = (要生成的\:token\:数量) / 延迟$$
 
 批处理技术在大语言模型的高效运作中不可或缺。
 
-- vLLM 通过 continuous batch 和动态批处理（dynamic batching）来优化性能。
+- vLLM 通过动态批处理（dynamic batching）和 pagedattention 来优化性能。
 
 ## 3. 分布式
 
@@ -146,4 +148,6 @@ $$TPS = (要生成的\:token\:数量) / 延迟$$
 
 - 此外，Ray 也提供了强大的分布式部署能力。结合 DeepSpeed 和 Ray，可以简单、快速、高效地微调和部署大型语言模型。
 
+## 参考文章
 
+- [Fast, Secure and Reliable: Enterprise-grade LLM Inference](https://www.databricks.com/blog/fast-secure-and-reliable-enterprise-grade-llm-inference)
