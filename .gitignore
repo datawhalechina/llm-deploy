@@ -165,3 +165,5 @@ gpt2deploy3/*
 reasoning-teacher/*
 GPT2_deploy/teacher_completion_data.tar/*
 GPT2_deploy/data/*
+gpt2deploy4
+gpt2_origin.pt
