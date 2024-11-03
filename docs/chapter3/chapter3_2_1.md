@@ -1,6 +1,6 @@
 # OBD公式推导
 
-&emsp;&emsp;Optimal Brain Damage (OBD)是1989年提出来的一种建制方法，该方法通过利用二阶导数信息在网络复杂度和训练集误差之间进行权衡，有选择地从网络中删除了一些不重要的权重，减少学习网络大小。
+&emsp;&emsp;Optimal Brain Damage (OBD)是1989年提出来的一种剪枝方法，该方法通过利用二阶导数信息在网络复杂度和训练集误差之间进行权衡，有选择地从网络中删除了一些不重要的权重，减少学习网络大小。
 
 &emsp;&emsp;已知等式：
 $$
@@ -41,7 +41,7 @@ $$
 $$
 f(X)=f\left(X_k\right)+ \nabla f\left(X_k\right)\left(X-X_k\right)^T+\frac{1}{2 !}\left(X-X_k\right)^T H\left(X_k\right)\left(X-X_k\right)+o^n \tag{6}
 $$
-&emsp;&emsp;其中，$x^T=[x^1, x^2, x^3 ... x^n]$,$H$矩阵为海森矩阵,是一个多元函数的二阶偏导数构成的方阵，描述了函数的局部曲率。海森矩阵常用于牛顿法解决优化问题，利用海森矩阵可判定多元函数的极值问题。
+&emsp;&emsp;其中，$x^T=[x^1, x^2, x^3 ... x^n]$，$H$矩阵为海森矩阵，是一个多元函数的二阶偏导数构成的方阵，描述了函数的局部曲率。海森矩阵常用于牛顿法解决优化问题，利用海森矩阵可判定多元函数的极值问题。
 
 $$
 H\left(\mathbf{x}_k\right)=\left[\begin{array}{cccc}
@@ -52,36 +52,36 @@ H\left(\mathbf{x}_k\right)=\left[\begin{array}{cccc}
 \end{array}\right] 
 $$
 
-&emsp;&emsp;对于神经网络的损失函数$E(w;x)$假设当权重$w$收敛至$w_0$时，此时目标函数$E$获得极小值。将权重$w$和极值$w_0$代入式中可得：
+&emsp;&emsp;对于神经网络的损失函数$E(w;x)$，假设当权重$w$收敛至$w_0$时，此时目标函数$E$获得极小值。将权重$w$和极值$w_0$代入式中可得：
 
 $$
-{E(w)}=E\left(w_0\right)+E^{\prime}\left(w_0\right)\left(w-w_0\right)+\frac{1}{2 !}\left(w-w_0\right)^T\cdot \mathbf{H}\cdot \left(w-w_0\right)+o^n \tag{7}
+{E(w)}=E\left(w_0\right)+E^{\prime}\left(w_0\right)\left(w-w_0\right)+\frac{1}{2 !}\left(w-w_0\right)^T\cdot H\cdot \left(w-w_0\right)+o^n \tag{7}
 $$
 
-&emsp;&emsp;其中，$\mathbf{H}=\partial^2 E / \partial \mathbf{w}^2$,进一步，$\delta E$可表示为：
+&emsp;&emsp;其中，$H=\partial^2 E / \partial w^2$,进一步，$\delta E$可表示为：
 
 $$
-\delta E=E(w)-E\left(w_0\right)=E^{\prime}\left(w_0\right)\left(w-w_0\right)+\frac{1}{2 !}\left(w-w_0\right)^T\cdot \mathbf{H}\cdot \left(w-w_0\right)+o^n \tag{8}
+\delta E=E(w)-E\left(w_0\right)=E^{\prime}\left(w_0\right)\left(w-w_0\right)+\frac{1}{2 !}\left(w-w_0\right)^T\cdot H\cdot \left(w-w_0\right)+o^n \tag{8}
 $$
 
 
 &emsp;&emsp;关于目标函数的变化$\delta E$泰勒展开式：
 $$
-\delta E=\left(\frac{\partial E}{\partial \mathbf{w}}\right)^T \cdot \delta \mathbf{w}+\frac{1}{2} \delta \mathbf{w}^T \cdot \mathbf{H} \cdot \delta \mathbf{w}+o^n \tag{9}
+\delta E=\left(\frac{\partial E}{\partial w}\right)^T \cdot \delta w+\frac{1}{2} \delta w^T \cdot H \cdot \delta w+o^n \tag{9}
 $$
 
 
 &emsp;&emsp;目标是找到一组参数，使得删除之后目标函数$E$的变化最小。OBD算法有三个重要的假设条件：
-（1）对角线假设：参数对目标函数的影响是相互独立的。
-（2）极值假设：在训练收敛后执行参数删除。
-（3）二次假设：目标函数是近似二次的。
+- 对角线假设：参数对目标函数的影响是相互独立的。
+- 极值假设：在训练收敛后执行参数删除。
+- 二次假设：目标函数是近似二次的。
 
 &emsp;&emsp;根据上面的假设(2)和（3），训练到局部误差最小的网络，第一项为0，第三项和后面的高阶项复杂度太高，所以只保留第二项。即：
 $$
-\delta E=\frac{1}{2} \delta \mathbf{w}^T \cdot \mathbf{H} \cdot \delta \mathbf{w} \tag{10}
+\delta E=\frac{1}{2} \delta w^T \cdot H \cdot \delta w \tag{10}
 $$
 
-&emsp;&emsp;H可表示为：
+&emsp;&emsp;$H$可表示为：
 $$
 H=\sum_{i=j} \frac{\partial^2 E}{\partial \omega_{i j}^2}+\sum_{i \neq j} \frac{\partial^2 E}{\partial \omega_{i j}^2} \tag{11}
 $$
