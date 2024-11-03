@@ -8,7 +8,7 @@ Y=XW \tag{1}
 $$
 &emsp;&emsp;其中，$X$为输入，$Y$为输出，$W$为权重。对式（1）变换后可得：
 $$
-W=X^{-1}Y=\left(X^T X\right)^{-1} X^T Y=\left(X^T X\right)^{-1} X^T X W  \tag{2}
+W=X^{-1}Y=\left(X^T X\right)^{-1} X^T Y=\left(X^T X\right)^{-1} X^T X Y  \tag{2}
 $$
 
 &emsp;&emsp;泰勒公式用多项式来近似表示函数在某点周围的情况，一元函数$f(x)$在$x_k$处的泰勒展开式如下：
