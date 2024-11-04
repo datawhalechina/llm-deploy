@@ -14,6 +14,9 @@
       * [3.4 剪枝总结](chapter3/chapter3_4.md)
   * 第4章 低秩分解
       * [4.1 低秩分解](chapter4/chapter4_1.md)
+      * [4.2 低秩适应与变体](chapter4/chapter4_2.md)
+      * [4.3 其他低秩分解技术](chapter4/chapter4_3.md)
+      * [4.4 低秩分解总结](chapter4/chapter4_4.md)
 * 二、运行篇
   * 第5章 表示
     * [5.1 模型格式](chapter5/5.1%20模型格式.md)
@@ -37,4 +40,6 @@
     * [9.3 批处理](chapter9/chapter9_2.md)
     * [9.4 分布式](chapter9/chapter9_3.md)
   * 第10章 内存
-    * [10.1 内存](chapter10/chapter10_1.md)
+    * [10.1 KV-Cache](chapter10/chapter10_1.md)
+    * [10.2 PagedAttention](chapter10/chapter10_2.md)
+    * [10.3 FlashAttention](chapter10/chapter10_3.md)
