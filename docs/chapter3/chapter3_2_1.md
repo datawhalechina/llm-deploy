@@ -30,11 +30,11 @@ $$
 
 $$
 \begin{gathered}
-f(x, y)=f\left(x_k, y_k\right)+\left(x-x_k\right) f_x^{\prime}\left(x_k, y_k\right)+\left(y-y_k\right) f_y^{\prime}\left(x_k, y_k\right) \\
-+\frac{1}{2 !}\left(x-x_k\right)^2 f_{x x}^{\prime \prime}\left(x_k, y_k\right)+\frac{1}{2 !}\left(x-x_k\right)\left(y-y_k\right) f_{x y}^{\prime \prime}\left(x_k, y_k\right) \\
-+\frac{1}{2 !}\left(x-x_k\right)\left(y-y_k\right) f_{y x}^{\prime \prime}\left(x_k, y_k\right)+\frac{1}{2 !}\left(y-y_k\right)^2 f_{y y}^{\prime \prime}\left(x_k, y_k\right) +\ldots
-\end{gathered} \tag{5}
+f\left(x^1, x^2, \ldots, x^n\right)=f\left(x_k^1, x_k^2, \ldots, x_k^n\right)+\sum_{i=1}^n\left(x^i-x_k^i\right) f_{x^i}^{\prime}\left(x_k^1, x_k^2, \ldots, x_k^n\right) \\
++\frac{1}{2!} \sum_{i, j=1}^n\left(x^i-x_k^i\right)\left(x^j-x_k^j\right) f_{i j}^{\prime \prime}\left(x_k^1, x_k^2, \ldots, x_k^n\right)  +o^n \tag{5}
+\end{gathered}
 $$
+
 
 &emsp;&emsp;推广到矩阵形式，可表示为：
 
