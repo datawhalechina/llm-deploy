@@ -35,10 +35,10 @@
     * [8.4 张量并行](chapter8/chapter8_4.md)
     * [8.5 并行总结](chapter8/chapter8_5.md)
   * 第9章 并发
-    * [9.1 并发](chapter9/chapter9_0.md)
-    * [9.2 异步](chapter9/chapter9_1.md)
-    * [9.3 批处理](chapter9/chapter9_2.md)
-    * [9.4 分布式](chapter9/chapter9_3.md)
+    * [9.1 并发](chapter9/chapter9_1.md)
+    * [9.2 异步](chapter9/chapter9_2.md)
+    * [9.3 批处理](chapter9/chapter9_3.md)
+    * [9.4 分布式](chapter9/chapter9_4.md)
   * 第10章 内存
     * [10.1 KV-Cache](chapter10/chapter10_1.md)
     * [10.2 PagedAttention](chapter10/chapter10_2.md)
