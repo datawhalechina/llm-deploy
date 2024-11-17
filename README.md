@@ -34,7 +34,7 @@
 | 宇菲 | 第2章负责人 | 蒸馏 |  |
 | 玉立 | 第3章负责人 | 剪枝 | [链接](https://meeting.tencent.com/crm/2ZdxyLYl14) |
 | 望寅 | 第4章负责人 | 低秩分解 |  |
-| 舒凡 | 第5章负责人 | 表示 |  |
+| 舒凡 | 第5章负责人 | 表示 | [链接](https://meeting.tencent.com/crm/NxvPbVzd7d) |
 | 春阳 | 第6章负责人 | 运行 |  |
 | 杨卓 | 第7章负责人 | 框架 |  |
 | 薛博阳 | 第8章负责人 | 并行 | [链接](https://meeting.tencent.com/crm/Nov91wz2eb) |
