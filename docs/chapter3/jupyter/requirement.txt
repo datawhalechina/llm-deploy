@@ -1,0 +1,19 @@
+torch>=1.7.1
+transformers>=4.28.1
+datasets
+sentencepiece
+accelerate
+wandb
+ptflops
+gradio
+rouge-score>=0.0.4
+jsonlines
+numexpr
+sacrebleu==1.5.0
+scikit-learn>=0.24.1
+sqlitedict
+# For lm-evaluation-harness
+importlib-resources
+pycountry
+omegaconf
+pytablewriter

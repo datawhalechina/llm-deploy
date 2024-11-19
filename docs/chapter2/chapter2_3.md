@@ -1,128 +1,43 @@
-## 2.3：经典的量化方法（How-part2:QAT）
-第三章讲经典QAT的LLM-QAT，OQ（涵盖weight-only 和 weight-act）-方式：原理讲解+代码，
+# LLM的知识蒸馏
 
-#### 一、LLM-QAT
+自2017年起，在自然语言处理领域，预训练大模型的参数规模呈指数级别增长，但终端场景的算力比较有限。目前来说，要想调用大模型的功能，需要先把大模型部署到云端或某个数据中心，再通过API远程访问。这种方法会导致网络延迟、依附网络才能应用模型等问题的存在，因此轻量化神经网络具有必要性。模型压缩可以将大型、资源密集型模型转换为适合存储在受限移动设备上的紧凑版本。此外它可以优化模型，以最小的延迟更快地执行，或实现这些目标之间的平衡。
 
-##### 2.1 原理讲解
+轻量化神经网络分为四个主要的技术路线：
 
-LLM-QAT（Large Language Model Quantization-Aware Training）是一种针对大型语言模型的量化感知训练方法。在LLM-QAT中，模型在训练过程中就考虑到了量化操作，从而可以减小量化后的模型性能损失。
+- 压缩已经训练好的大的模型，如知识蒸馏、权值量化、网络剪枝（包括权重剪枝和通道剪枝）、注意力迁移等；
+- 直接训练轻量化网络，如squeezeNet, MobileNet, Mnasnet, ShuffleNet, Xception, EfficientNet等；
+- 通过一些数值方法加速卷积运算，常用加速方法包括winograd卷积、低秩分解等；
+- 硬件部署。衡量一个轻量化网络是否足够好有以下一些角度：参数量、计算量、内存访问量、耗时、能耗等。有而知识蒸馏属于上述的第一种方法。
 
-LLM-QAT的基本思想是使用预训练模型自己生成的数据进行知识蒸馏，并在量化权重和激活的同时，对KV cache进行量化。以下是LLM-QAT的详细步骤：
+<div align=center>
+<img src="https://github.com/gyfffffff/llm-deploy/blob/main/%E6%A8%A1%E5%9E%8B%E8%92%B8%E9%A6%8F/1.%20%E8%92%B8%E9%A6%8F%E5%9F%BA%E7%A1%80/chapter3_1/images/Figure%204.png" width="700">
+</div>
 
-1. **数据生成**：
+当使用LLM作为教师网络时，根据是否强调将LLM的涌现能力（Emergent Abilities, EA）蒸馏到小型语言模型（SLM）中来进行分类，可以把知识蒸馏分为两类：标准知识蒸馏（Standard KD）和基于涌现能力的知识蒸馏（EA-based KD）。
 
-   - 使用预训练模型生成数据。具体地，从词汇表中随机化第一个Token（例如<start>），并让预训练模型生成下一个Token。然后将生成的Token附加到起始Token以生成新的输出，重复这个迭代过程，直到达到句子Token的结尾或最大生成长度。
-   - 为了生成更加多样化的句子，使用预训练模型的SoftMax输出作为概率，从分布中随机采样下一个Token。为了提高微调学生模型的准确性，采用混合采样策略，针对前3-5个Token确定性地选择top-1预测，然后剩余的Token进行随机采样。
+    涌现能力是指在较小的模型中不出现，而在较大的模型中出现的能力，则可以称之为“涌现能力“；
+    比如与 BERT（330M）和 GPT-2（1.5B）等较小模型相比，GPT-3（175B）和 PaLM（540B）等 LLM 展示了独特的行为，这些LLM在处理复杂的任务时表现出令人惊讶的能力。
+    (An ability is emergent if it is not present in smaller models but is present in larger models.)。
 
-2. **量化操作**：
+标准知识蒸馏（Standard KD）旨在使学生模型学习LLM所拥有的常见知识，如输出分布和特征信息。这种方法类似于传统的知识蒸馏，但区别在于教师模型是LLM。相比之下，基于涌现能力的知识蒸馏（EA-based KD）不仅仅是将LLM的常见知识转移到学生模型中，还涵盖了蒸馏它们独特的涌现能力。具体来说，基于涌现能力的知识蒸馏（EA-based KD）又分为了上下文学习（ICL）、思维链（CoT）和指令跟随（IF）。
 
-   - 量化是指将连续的无限值映射到较小的离散有限值集合的过程。在LLM-QAT中，量化包括权重、激活和KV cache的量化。
-   - 针对权重采用的是per-channel量化，而针对激活和KV cache采用的是per-token量化。
-   - 在量化过程中，采用的是均匀线性对称量化，量化方法采用minmax方法（而不是lsq等方法）。采用对称量化的原因是观察到带有GLU（gated linear unit）的模型权重与激活对称，但对于采用GELU的模型并不适用。
+<div align=center>
+<img src="https://github.com/gyfffffff/llm-deploy/blob/main/%E6%A8%A1%E5%9E%8B%E8%92%B8%E9%A6%8F/1.%20%E8%92%B8%E9%A6%8F%E5%9F%BA%E7%A1%80/chapter3_1/images/Figure%205.png" width="500">
+</div>
 
-3. **知识蒸馏**：
+有关分类模型的蒸馏、小模型蒸馏的开源项目可以参考：
+https://github.com/datawhalechina/awesome-compression/blob/main/docs/ch06/ch06.md
 
-   - 采用基于交叉熵的logit distillation方法，通过teacher model指导student model进行训练。
+根据蒸馏方法可以把知识蒸馏分为两类：一种是黑盒知识蒸馏(Black-box KD)，一种是白盒知识蒸馏(White-box KD)。黑盒知识蒸馏将教师网络的预测结果当成训练集输入学生网络，而白盒知识蒸馏不仅利用了教师网络的预测结果，还把教师网络的参数输入轻量级模型。
 
-4. **微调数据集选择**：
+<div align=center>
+<img src="https://github.com/gyfffffff/llm-deploy/blob/main/%E6%A8%A1%E5%9E%8B%E8%92%B8%E9%A6%8F/1.%20%E8%92%B8%E9%A6%8F%E5%9F%BA%E7%A1%80/chapter3_1/images/Figure%206.png" width="500">
+</div>
 
-   - 选择合适的微调数据集非常重要。如果QAT数据域太窄或者与原始预训练数据分布存在显著不同，则可能会损害模型的性能。
+参考文献： 
 
-5. **实验效果**：
+[1] Knowledge Distillation [https://arxiv.org/pdf/1503.02531.pdf]
 
-   - 在LLM-QAT的论文中，作者对LLaMA-7B/13B/30B模型在低至4比特的量化级别上进行了实验。实验结果表明，量化感知训练对模型效果有很大的改进，特别是在低比特的场景。
+[2] Do Deep Nets Really Need to be Deep? [https://arxiv.org/pdf.1312.6184.pdf]
 
-##### 2.2 代码实现
-
-以下是一个简化的LLM-QAT代码示例，假设你已经有一个预训练好的大型语言模型，并且使用PyTorch框架。
-
-```python
-import torch
-import torch.nn as nn
-import torch.optim as optim
-from transformers import AutoModelForCausalLM, AutoTokenizer, AutoConfig
-from transformers.models.llama.modeling_llama import LLamaForCausalLM
-from quantizers import Quantizer  # 假设你有一个自定义的量化器
-
-# 加载预训练模型和分词器
-model_name = "llama-7b"
-model = AutoModelForCausalLM.from_pretrained(model_name)
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-
-# 定义量化感知训练模型
-class QuantAwareLLM(nn.Module):
-    def __init__(self, model, quantizer):
-        super(QuantAwareLLM, self).__init__()
-        self.model = model
-        self.quantizer = quantizer
-
-    def forward(self, input_ids, attention_mask=None):
-        # 对权重和激活进行量化
-        quantized_model = self.quantizer(self.model)
-        outputs = quantized_model(input_ids=input_ids, attention_mask=attention_mask)
-        return outputs
-
-# 定义量化器
-class SimpleQuantizer:
-    def __init__(self, bit_width):
-        self.bit_width = bit_width
-        self.max_val = 2 ** (bit_width - 1) - 1
-        self.min_val = -2 ** (bit_width - 1)
-
-    def quantize(self, tensor):
-        return torch.clamp(tensor, self.min_val, self.max_val).round().to(torch.int)
-
-    def dequantize(self, tensor):
-        return tensor.to(torch.float) / self.max_val
-
-# 实例化量化器
-quantizer = SimpleQuantizer(bit_width=4)
-
-# 实例化量化感知训练模型
-quant_aware_model = QuantAwareLLM(model, quantizer)
-
-# 定义损失函数和优化器
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.AdamW(quant_aware_model.parameters(), lr=5e-5)
-
-# 数据生成函数
-def generate_data(model, tokenizer, max_length=100):
-    input_ids = torch.tensor([[tokenizer.encode("<start>")[0]]])
-    outputs = model.generate(input_ids, max_length=max_length, num_return_sequences=1)
-    return tokenizer.decode(outputs[0], skip_special_tokens=True)
-
-# 生成训练数据
-data = [generate_data(model, tokenizer) for _ in range(1000)]  # 假设生成1000条数据
-
-# 将数据转换为模型输入格式
-inputs = tokenizer(data, padding=True, truncation=True, return_tensors="pt")
-labels = tokenizer(data, padding=True, truncation=True, return_tensors="pt", return_attention_mask=False)["input_ids"]
-
-# 训练循环
-num_epochs = 3
-for epoch in range(num_epochs):
-    model.train()
-    for batch in zip(inputs["input_ids"], labels):
-        input_ids, target_ids = batch
-        optimizer.zero_grad()
-        
-        # 前向传播
-        outputs = quant_aware_model(input_ids=input_ids)
-        logits = outputs.logits
-        
-        # 计算损失
-        shift_logits = logits[..., :-1, :].contiguous()
-        shift_labels = target_ids[..., 1:].contiguous()
-        loss = criterion(shift_logits.view(-1, logits.size(-1)), shift_labels.view(-1))
-        
-        # 反向传播和优化
-        loss.backward()
-        optimizer.step()
-    
-    print(f"Epoch {epoch+1}/{num_epochs}, Loss: {loss.item()}")
-
-# 保存量化后的模型
-torch.save(quant_aware_model.state_dict(), "quant_aware_llm.pth")
-```
-
-注意：上述代码是一个简化的示例，并没有包含所有细节，例如KV cache的量化、知识蒸馏的具体实现等。在实际应用中，需要更复杂的实现和调优。
+[3] A Servey on Model Compression for Large Language Models [https://arxiv.org/pdf/2308.07633.pdf] 
