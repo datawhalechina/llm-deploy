@@ -137,15 +137,15 @@ def test(ckpt_path=""):
 
 
 if __name__ == "__main__":
-    model_name_or_path = "F:\llm-deploy\GPT2_deploy\GPT-2"
+    model_name_or_path = "../../models/GPT-2"  # 替换成自己的模型路径
     model_type = "decoder"
 
     tokenizer = GPT2Tokenizer.from_pretrained(model_name_or_path)
     model = GPT2LMHeadModel.from_pretrained(model_name_or_path)
 
-    train_data_path = r"F:\llm-deploy\GPT2_deploy\data\F_zs_cot_date_understanding_good_train.jsonl"
-    val_data_path = r"F:\llm-deploy\GPT2_deploy\data\F_zs_cot_date_understanding_good_val.jsonl"
-    test_data_path = r"F:\llm-deploy\GPT2_deploy\data\F_zs_cot_date_understanding_good_test.jsonl"
+    train_data_path = "../../data/F_zs_cot_date_understanding_good_train.jsonl"
+    val_data_path = "../../data/F_zs_cot_date_understanding_good_val.jsonl"
+    test_data_path = "../../data/F_zs_cot_date_understanding_good_test.jsonl"
 
     train_dataloader = dataloader(train_data_path)
     val_dataloader = dataloader(val_data_path)
