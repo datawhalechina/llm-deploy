@@ -63,9 +63,9 @@ def tokenize(example):
     
 def train_step(batch):
     kwargs = {
-        "input_ids": batch["input_ids"],
-        "attention_mask": batch["attention_mask"],
-        "labels": batch["labels"],
+        "input_ids": batch["input_ids"].to(device),
+        "attention_mask": batch["attention_mask"].to(device),
+        "labels": batch["labels"].to(device),
     }
     res = model(**kwargs)["loss"]
     return res
@@ -152,6 +152,7 @@ if __name__ == "__main__":
     test_dataloader = dataloader(test_data_path)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(device)
 
     train()
     test()
