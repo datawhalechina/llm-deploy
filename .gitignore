@@ -159,9 +159,5 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 .idea/
 .DS_Store
-GPT2_deploy/GPT-2/*
-gpt2-large-deploy1/*
-gpt2deploy3/*
-reasoning-teacher/*
-GPT2_deploy/teacher_completion_data.tar/*
-GPT2_deploy/data/*
+docs/chapter2/models/GPT-2/*
+MetaICL/

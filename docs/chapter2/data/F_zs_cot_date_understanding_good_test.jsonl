@@ -1,0 +1,428 @@
+{
+    "metadata": {
+        "dataset_key": "date_understanding",
+        "base_model": "text-davinci-002",
+        "completion_key": "zs_cot",
+        "finetune_key": null,
+        "train_key": null,
+        "method": "ft_cot",
+        "prediction_template": null,
+        "parameters": {
+            "temperature": 0,
+            "max_tokens": 128,
+            "reasoning_temperature": 0,
+            "reasoning_max_tokens": 128
+        },
+        "epoch": null
+    },
+    "data": {
+        "315": [
+            {
+                "sample_index": 315,
+                "completion_index": 0,
+                "question": "Jane is celebrating the last day of Jan 2012. What is the date today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/30/2012, (B) 01/31/2012, (C) 01/21/2012, (D) 03/22/2012, (E) 02/10/2012, (F) 01/29/2012.",
+                "answer": "B",
+                "reasoning_prompt": "Q: Jane is celebrating the last day of Jan 2012. What is the date today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/30/2012, (B) 01/31/2012, (C) 01/21/2012, (D) 03/22/2012, (E) 02/10/2012, (F) 01/29/2012.\nA: Let's think step by step.",
+                "reasoning_completion": " Jane is celebrating the last day of Jan 2012. The last day of Jan 2012 is Jan 31st. Today's date is Jan 31st. Therefore, the date today is 01/31/2012.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane is celebrating the last day of Jan 2012. What is the date today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/30/2012, (B) 01/31/2012, (C) 01/21/2012, (D) 03/22/2012, (E) 02/10/2012, (F) 01/29/2012.\nA: Let's think step by step. Jane is celebrating the last day of Jan 2012. The last day of Jan 2012 is Jan 31st. Today's date is Jan 31st. Therefore, the date today is 01/31/2012.\nTherefore, the answer is",
+                "completion": " (B)."
+            }
+        ],
+        "316": [
+            {
+                "sample_index": 316,
+                "completion_index": 0,
+                "question": "Jane is celebrating the last day of Jan 2012. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/25/2012, (B) 02/02/2012, (C) 02/11/2012, (D) 02/01/2012, (E) 02/15/2012, (F) 04/22/2012.",
+                "answer": "D",
+                "reasoning_prompt": "Q: Jane is celebrating the last day of Jan 2012. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/25/2012, (B) 02/02/2012, (C) 02/11/2012, (D) 02/01/2012, (E) 02/15/2012, (F) 04/22/2012.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nJane is celebrating the last day of Jan 2012. \n\nThe last day of Jan 2012 is 1/31/2012. \n\nThe day after 1/31/2012 is 2/1/2012. \n\nTherefore, the answer is D.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane is celebrating the last day of Jan 2012. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/25/2012, (B) 02/02/2012, (C) 02/11/2012, (D) 02/01/2012, (E) 02/15/2012, (F) 04/22/2012.\nA: Let's think step by step. \n\nJane is celebrating the last day of Jan 2012. \n\nThe last day of Jan 2012 is 1/31/2012. \n\nThe day after 1/31/2012 is 2/1/2012. \n\nTherefore, the answer is D.\nTherefore, the answer is",
+                "completion": " D."
+            }
+        ],
+        "317": [
+            {
+                "sample_index": 317,
+                "completion_index": 0,
+                "question": "Jane is celebrating the last day of Jan 2012. What is the date yesterday in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/30/1925, (B) 09/30/2011, (C) 01/29/2012, (D) 02/06/2012, (E) 01/30/2012.",
+                "answer": "E",
+                "reasoning_prompt": "Q: Jane is celebrating the last day of Jan 2012. What is the date yesterday in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/30/1925, (B) 09/30/2011, (C) 01/29/2012, (D) 02/06/2012, (E) 01/30/2012.\nA: Let's think step by step.",
+                "reasoning_completion": " Yesterday was the last day of January, so today is February 1st. The day before February 1st is January 31st. Therefore, the date yesterday was 01/31/2012.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane is celebrating the last day of Jan 2012. What is the date yesterday in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/30/1925, (B) 09/30/2011, (C) 01/29/2012, (D) 02/06/2012, (E) 01/30/2012.\nA: Let's think step by step. Yesterday was the last day of January, so today is February 1st. The day before February 1st is January 31st. Therefore, the date yesterday was 01/31/2012.\nTherefore, the answer is",
+                "completion": " C."
+            }
+        ],
+        "318": [
+            {
+                "sample_index": 318,
+                "completion_index": 0,
+                "question": "Jane is celebrating the last day of Jan 2012. What is the date 10 days ago in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/25/2012, (B) 01/21/2012, (C) 12/31/2011, (D) 04/21/2012, (E) 07/21/2011, (F) 10/13/2011.",
+                "answer": "B",
+                "reasoning_prompt": "Q: Jane is celebrating the last day of Jan 2012. What is the date 10 days ago in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/25/2012, (B) 01/21/2012, (C) 12/31/2011, (D) 04/21/2012, (E) 07/21/2011, (F) 10/13/2011.\nA: Let's think step by step.",
+                "reasoning_completion": " The last day of Jan 2012 is Jan 31. 10 days ago would be Jan 21. Therefore, the answer is (B).",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane is celebrating the last day of Jan 2012. What is the date 10 days ago in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/25/2012, (B) 01/21/2012, (C) 12/31/2011, (D) 04/21/2012, (E) 07/21/2011, (F) 10/13/2011.\nA: Let's think step by step. The last day of Jan 2012 is Jan 31. 10 days ago would be Jan 21. Therefore, the answer is (B).\nTherefore, the answer is",
+                "completion": " (B)."
+            }
+        ],
+        "319": [
+            {
+                "sample_index": 319,
+                "completion_index": 0,
+                "question": "Jane is celebrating the last day of Jan 2012. What is the date a month ago in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 12/31/2108, (B) 12/31/2074, (C) 03/29/2012, (D) 12/30/2011, (E) 12/21/2011, (F) 12/31/2011.",
+                "answer": "F",
+                "reasoning_prompt": "Q: Jane is celebrating the last day of Jan 2012. What is the date a month ago in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 12/31/2108, (B) 12/31/2074, (C) 03/29/2012, (D) 12/30/2011, (E) 12/21/2011, (F) 12/31/2011.\nA: Let's think step by step.",
+                "reasoning_completion": " A month ago from the last day of January 2012 would be the last day of December 2011, which is 12/31/2011.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane is celebrating the last day of Jan 2012. What is the date a month ago in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 12/31/2108, (B) 12/31/2074, (C) 03/29/2012, (D) 12/30/2011, (E) 12/21/2011, (F) 12/31/2011.\nA: Let's think step by step. A month ago from the last day of January 2012 would be the last day of December 2011, which is 12/31/2011.\nTherefore, the answer is",
+                "completion": " (F)."
+            }
+        ],
+        "320": [
+            {
+                "sample_index": 320,
+                "completion_index": 0,
+                "question": "Jane is celebrating the last day of Jan 2012. What is the date one year ago from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/31/2011, (B) 04/20/2011, (C) 02/01/2011, (D) 02/08/2011, (E) 06/30/2011, (F) 10/31/2011.",
+                "answer": "A",
+                "reasoning_prompt": "Q: Jane is celebrating the last day of Jan 2012. What is the date one year ago from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/31/2011, (B) 04/20/2011, (C) 02/01/2011, (D) 02/08/2011, (E) 06/30/2011, (F) 10/31/2011.\nA: Let's think step by step.",
+                "reasoning_completion": " One year ago from today would be 01/31/2011.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane is celebrating the last day of Jan 2012. What is the date one year ago from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/31/2011, (B) 04/20/2011, (C) 02/01/2011, (D) 02/08/2011, (E) 06/30/2011, (F) 10/31/2011.\nA: Let's think step by step. One year ago from today would be 01/31/2011.\nTherefore, the answer is",
+                "completion": " (A)."
+            }
+        ],
+        "321": [
+            {
+                "sample_index": 321,
+                "completion_index": 0,
+                "question": "Jane is celebrating the last day of Jan 2012. What is the date one week ago from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/22/2012, (B) 01/24/1947, (C) 01/24/2012, (D) 02/06/2012, (E) 01/24/1923, (F) 08/24/2011.",
+                "answer": "C",
+                "reasoning_prompt": "Q: Jane is celebrating the last day of Jan 2012. What is the date one week ago from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/22/2012, (B) 01/24/1947, (C) 01/24/2012, (D) 02/06/2012, (E) 01/24/1923, (F) 08/24/2011.\nA: Let's think step by step.",
+                "reasoning_completion": " One week ago from today would be 7 days, or 1 week. Today is 1/31/2012, so one week ago would be 1/24/2012. Therefore, the answer is C.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane is celebrating the last day of Jan 2012. What is the date one week ago from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/22/2012, (B) 01/24/1947, (C) 01/24/2012, (D) 02/06/2012, (E) 01/24/1923, (F) 08/24/2011.\nA: Let's think step by step. One week ago from today would be 7 days, or 1 week. Today is 1/31/2012, so one week ago would be 1/24/2012. Therefore, the answer is C.\nTherefore, the answer is",
+                "completion": " C."
+            }
+        ],
+        "322": [
+            {
+                "sample_index": 322,
+                "completion_index": 0,
+                "question": "Jane is celebrating the last day of Jan 2012. What is the date one week from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 02/07/2014, (B) 03/16/2012, (C) 02/07/2012, (D) 02/01/2012, (E) 01/31/2012, (F) 02/06/2012.",
+                "answer": "F",
+                "reasoning_prompt": "Q: Jane is celebrating the last day of Jan 2012. What is the date one week from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 02/07/2014, (B) 03/16/2012, (C) 02/07/2012, (D) 02/01/2012, (E) 01/31/2012, (F) 02/06/2012.\nA: Let's think step by step.",
+                "reasoning_completion": " Jane is celebrating the last day of Jan 2012. The last day of Jan 2012 is 1/31/2012. One week from 1/31/2012 is 2/7/2012. Therefore, the answer is (C) 02/07/2012.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane is celebrating the last day of Jan 2012. What is the date one week from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 02/07/2014, (B) 03/16/2012, (C) 02/07/2012, (D) 02/01/2012, (E) 01/31/2012, (F) 02/06/2012.\nA: Let's think step by step. Jane is celebrating the last day of Jan 2012. The last day of Jan 2012 is 1/31/2012. One week from 1/31/2012 is 2/7/2012. Therefore, the answer is (C) 02/07/2012.\nTherefore, the answer is",
+                "completion": " (C) 02/07/2012."
+            }
+        ],
+        "323": [
+            {
+                "sample_index": 323,
+                "completion_index": 0,
+                "question": "Jane is celebrating the last day of Jan 2012. What is the date 24 hours later in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 02/01/2016, (B) 02/01/2079, (C) 11/10/2011, (D) 01/31/2012, (E) 02/01/2012, (F) 01/04/2012.",
+                "answer": "E",
+                "reasoning_prompt": "Q: Jane is celebrating the last day of Jan 2012. What is the date 24 hours later in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 02/01/2016, (B) 02/01/2079, (C) 11/10/2011, (D) 01/31/2012, (E) 02/01/2012, (F) 01/04/2012.\nA: Let's think step by step.",
+                "reasoning_completion": " The last day of Jan 2012 is 1/31/2012. 24 hours later would be 1/31/2012 at 11:59 PM, which would turn into 2/1/2012 at 12:00 AM. Therefore, the answer is (E) 02/01/2012.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane is celebrating the last day of Jan 2012. What is the date 24 hours later in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 02/01/2016, (B) 02/01/2079, (C) 11/10/2011, (D) 01/31/2012, (E) 02/01/2012, (F) 01/04/2012.\nA: Let's think step by step. The last day of Jan 2012 is 1/31/2012. 24 hours later would be 1/31/2012 at 11:59 PM, which would turn into 2/1/2012 at 12:00 AM. Therefore, the answer is (E) 02/01/2012.\nTherefore, the answer is",
+                "completion": " (E) 02/01/2012."
+            }
+        ],
+        "333": [
+            {
+                "sample_index": 333,
+                "completion_index": 0,
+                "question": "Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 12/23/1960, (B) 01/02/1990, (C) 01/02/1961, (D) 01/03/1961, (E) 01/02/1960, (F) 01/02/1894.",
+                "answer": "C",
+                "reasoning_prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 12/23/1960, (B) 01/02/1990, (C) 01/02/1961, (D) 01/03/1961, (E) 01/02/1960, (F) 01/02/1894.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nThe couple married on January 2, 1958. \n\nToday is their 5-year anniversary. \n\nThe date today is January 2, 1963. \n\nThe answer is (C).",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 12/23/1960, (B) 01/02/1990, (C) 01/02/1961, (D) 01/03/1961, (E) 01/02/1960, (F) 01/02/1894.\nA: Let's think step by step. \n\nThe couple married on January 2, 1958. \n\nToday is their 5-year anniversary. \n\nThe date today is January 2, 1963. \n\nThe answer is (C).\nTherefore, the answer is",
+                "completion": " (C)."
+            }
+        ],
+        "334": [
+            {
+                "sample_index": 334,
+                "completion_index": 0,
+                "question": "Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 10/14/1960, (B) 12/03/1960, (C) 01/11/1961, (D) 01/03/1982, (E) 01/18/1961, (F) 01/03/1961.",
+                "answer": "F",
+                "reasoning_prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 10/14/1960, (B) 12/03/1960, (C) 01/11/1961, (D) 01/03/1982, (E) 01/18/1961, (F) 01/03/1961.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nThe couple married on January 2, 1958. \n\nFive years later would be January 2, 1963. \n\nTherefore, the day after their 5-year anniversary would be January 3, 1963. \n\nThe answer is (F).",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 10/14/1960, (B) 12/03/1960, (C) 01/11/1961, (D) 01/03/1982, (E) 01/18/1961, (F) 01/03/1961.\nA: Let's think step by step. \n\nThe couple married on January 2, 1958. \n\nFive years later would be January 2, 1963. \n\nTherefore, the day after their 5-year anniversary would be January 3, 1963. \n\nThe answer is (F).\nTherefore, the answer is",
+                "completion": " (F)."
+            },
+            {
+                "sample_index": 334,
+                "completion_index": 1,
+                "question": "Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 10/14/1960, (B) 12/03/1960, (C) 01/11/1961, (D) 01/03/1982, (E) 01/18/1961, (F) 01/03/1961.",
+                "answer": "F",
+                "reasoning_prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 10/14/1960, (B) 12/03/1960, (C) 01/11/1961, (D) 01/03/1982, (E) 01/18/1961, (F) 01/03/1961.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nThe day after their 5-year anniversary would be the 6-year anniversary, which would be Jan 3. \n\nTherefore, the date tomorrow in MM/DD/YYYY would be 01/03/1961.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 10/14/1960, (B) 12/03/1960, (C) 01/11/1961, (D) 01/03/1982, (E) 01/18/1961, (F) 01/03/1961.\nA: Let's think step by step. \n\nThe day after their 5-year anniversary would be the 6-year anniversary, which would be Jan 3. \n\nTherefore, the date tomorrow in MM/DD/YYYY would be 01/03/1961.\nTherefore, the answer is",
+                "completion": " (F)."
+            },
+            {
+                "sample_index": 334,
+                "completion_index": 2,
+                "question": "Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 10/14/1960, (B) 12/03/1960, (C) 01/11/1961, (D) 01/03/1982, (E) 01/18/1961, (F) 01/03/1961.",
+                "answer": "F",
+                "reasoning_prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 10/14/1960, (B) 12/03/1960, (C) 01/11/1961, (D) 01/03/1982, (E) 01/18/1961, (F) 01/03/1961.\nA: Let's think step by step.",
+                "reasoning_completion": " They married on January 2, 1958, so the next year would be 1959. January 2, 1959 would be their first anniversary. The second anniversary would be on January 2, 1960. So their fifth anniversary would be on January 2, 1961. Therefore, tomorrow's date would be 01/03/1961.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 10/14/1960, (B) 12/03/1960, (C) 01/11/1961, (D) 01/03/1982, (E) 01/18/1961, (F) 01/03/1961.\nA: Let's think step by step. They married on January 2, 1958, so the next year would be 1959. January 2, 1959 would be their first anniversary. The second anniversary would be on January 2, 1960. So their fifth anniversary would be on January 2, 1961. Therefore, tomorrow's date would be 01/03/1961.\nTherefore, the answer is",
+                "completion": " (F)."
+            },
+            {
+                "sample_index": 334,
+                "completion_index": 3,
+                "question": "Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 10/14/1960, (B) 12/03/1960, (C) 01/11/1961, (D) 01/03/1982, (E) 01/18/1961, (F) 01/03/1961.",
+                "answer": "F",
+                "reasoning_prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 10/14/1960, (B) 12/03/1960, (C) 01/11/1961, (D) 01/03/1982, (E) 01/18/1961, (F) 01/03/1961.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nToday is their 5-year anniversary, so they got married 5 years ago. \n5 years ago from today was January 2, 2013. \nThe day after January 2, 2013 was January 3, 2013. \n\nSo, the answer is D: 01/03/1961.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 10/14/1960, (B) 12/03/1960, (C) 01/11/1961, (D) 01/03/1982, (E) 01/18/1961, (F) 01/03/1961.\nA: Let's think step by step. \n\nToday is their 5-year anniversary, so they got married 5 years ago. \n5 years ago from today was January 2, 2013. \nThe day after January 2, 2013 was January 3, 2013. \n\nSo, the answer is D: 01/03/1961.\nTherefore, the answer is",
+                "completion": " D: 01/03/1961."
+            },
+            {
+                "sample_index": 334,
+                "completion_index": 4,
+                "question": "Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 10/14/1960, (B) 12/03/1960, (C) 01/11/1961, (D) 01/03/1982, (E) 01/18/1961, (F) 01/03/1961.",
+                "answer": "F",
+                "reasoning_prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 10/14/1960, (B) 12/03/1960, (C) 01/11/1961, (D) 01/03/1982, (E) 01/18/1961, (F) 01/03/1961.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nWe are looking for their 5-year anniversary. \n5 years from Jan 2, 1958 is Jan 2, 1963. \nThe day after Jan 2, 1963 is Jan 3, 1963. \n\nTherefore, the answer is 01/03/1963.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 10/14/1960, (B) 12/03/1960, (C) 01/11/1961, (D) 01/03/1982, (E) 01/18/1961, (F) 01/03/1961.\nA: Let's think step by step. \n\nWe are looking for their 5-year anniversary. \n5 years from Jan 2, 1958 is Jan 2, 1963. \nThe day after Jan 2, 1963 is Jan 3, 1963. \n\nTherefore, the answer is 01/03/1963.\nTherefore, the answer is",
+                "completion": " (F) 01/03/1961."
+            }
+        ],
+        "335": [
+            {
+                "sample_index": 335,
+                "completion_index": 0,
+                "question": "Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date yesterday in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 02/01/1961, (B) 01/01/2003, (C) 01/01/1958, (D) 04/09/1961, (E) 01/01/1961, (F) 11/01/1960.",
+                "answer": "E",
+                "reasoning_prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date yesterday in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 02/01/1961, (B) 01/01/2003, (C) 01/01/1958, (D) 04/09/1961, (E) 01/01/1961, (F) 11/01/1960.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nThe question is asking for the date \"yesterday.\" \nYesterday is one day before the present day. \nThe present day is their 5-year anniversary, which is Jan 2, 1958. \nTherefore, yesterday was Jan 1, 1958. \n\nThe answer is (C) 01/01/1958.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date yesterday in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 02/01/1961, (B) 01/01/2003, (C) 01/01/1958, (D) 04/09/1961, (E) 01/01/1961, (F) 11/01/1960.\nA: Let's think step by step. \n\nThe question is asking for the date \"yesterday.\" \nYesterday is one day before the present day. \nThe present day is their 5-year anniversary, which is Jan 2, 1958. \nTherefore, yesterday was Jan 1, 1958. \n\nThe answer is (C) 01/01/1958.\nTherefore, the answer is",
+                "completion": " (C) 01/01/1958."
+            }
+        ],
+        "336": [
+            {
+                "sample_index": 336,
+                "completion_index": 0,
+                "question": "Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date 10 days ago in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 12/30/1960, (B) 12/22/1960, (C) 12/23/1915, (D) 12/23/1960, (E) 10/09/1960, (F) 12/23/2003.",
+                "answer": "D",
+                "reasoning_prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date 10 days ago in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 12/30/1960, (B) 12/22/1960, (C) 12/23/1915, (D) 12/23/1960, (E) 10/09/1960, (F) 12/23/2003.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nThe 5-year anniversary is Jan 2, 1963. \n10 days ago would be Dec 23, 1962. \n\nThe answer is D.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date 10 days ago in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 12/30/1960, (B) 12/22/1960, (C) 12/23/1915, (D) 12/23/1960, (E) 10/09/1960, (F) 12/23/2003.\nA: Let's think step by step. \n\nThe 5-year anniversary is Jan 2, 1963. \n10 days ago would be Dec 23, 1962. \n\nThe answer is D.\nTherefore, the answer is",
+                "completion": " D."
+            }
+        ],
+        "337": [
+            {
+                "sample_index": 337,
+                "completion_index": 0,
+                "question": "Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date a month ago in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 12/01/1960, (B) 05/02/1961, (C) 12/02/1960, (D) 12/02/2055, (E) 12/02/2000, (F) 11/18/1960.",
+                "answer": "C",
+                "reasoning_prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date a month ago in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 12/01/1960, (B) 05/02/1961, (C) 12/02/1960, (D) 12/02/2055, (E) 12/02/2000, (F) 11/18/1960.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nThe 5-year anniversary is Jan 2, 1963. \nA month ago would be Dec 2, 1962. \n\nThe answer is C.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date a month ago in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 12/01/1960, (B) 05/02/1961, (C) 12/02/1960, (D) 12/02/2055, (E) 12/02/2000, (F) 11/18/1960.\nA: Let's think step by step. \n\nThe 5-year anniversary is Jan 2, 1963. \nA month ago would be Dec 2, 1962. \n\nThe answer is C.\nTherefore, the answer is",
+                "completion": " C."
+            }
+        ],
+        "338": [
+            {
+                "sample_index": 338,
+                "completion_index": 0,
+                "question": "Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date one year ago from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 12/19/1959, (B) 01/02/2016, (C) 01/02/1960, (D) 06/02/1960, (E) 12/26/1959, (F) 01/02/1967.",
+                "answer": "C",
+                "reasoning_prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date one year ago from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 12/19/1959, (B) 01/02/2016, (C) 01/02/1960, (D) 06/02/1960, (E) 12/26/1959, (F) 01/02/1967.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nThe question is asking for the date one year ago from today. \nToday is their 5-year anniversary, so today's date is 01/02/1963. \nOne year ago from 01/02/1963 is 01/02/1962. \n\nThe answer is C.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date one year ago from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 12/19/1959, (B) 01/02/2016, (C) 01/02/1960, (D) 06/02/1960, (E) 12/26/1959, (F) 01/02/1967.\nA: Let's think step by step. \n\nThe question is asking for the date one year ago from today. \nToday is their 5-year anniversary, so today's date is 01/02/1963. \nOne year ago from 01/02/1963 is 01/02/1962. \n\nThe answer is C.\nTherefore, the answer is",
+                "completion": " C."
+            }
+        ],
+        "339": [
+            {
+                "sample_index": 339,
+                "completion_index": 0,
+                "question": "Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date one week ago from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/02/1961, (B) 10/01/1960, (C) 12/26/1960, (D) 01/09/1961, (E) 07/26/1960, (F) 12/26/1936.",
+                "answer": "C",
+                "reasoning_prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date one week ago from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/02/1961, (B) 10/01/1960, (C) 12/26/1960, (D) 01/09/1961, (E) 07/26/1960, (F) 12/26/1936.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nThe question is asking for one week ago from today. \nToday is their 5-year anniversary, so today's date is 01/02/1963. \nOne week ago from 01/02/1963 is 12/26/1962. \n\nTherefore, the answer is (C) 12/26/1960.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date one week ago from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/02/1961, (B) 10/01/1960, (C) 12/26/1960, (D) 01/09/1961, (E) 07/26/1960, (F) 12/26/1936.\nA: Let's think step by step. \n\nThe question is asking for one week ago from today. \nToday is their 5-year anniversary, so today's date is 01/02/1963. \nOne week ago from 01/02/1963 is 12/26/1962. \n\nTherefore, the answer is (C) 12/26/1960.\nTherefore, the answer is",
+                "completion": " (C) 12/26/1960."
+            }
+        ],
+        "340": [
+            {
+                "sample_index": 340,
+                "completion_index": 0,
+                "question": "Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date one week from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 02/28/1961, (B) 07/09/1960, (C) 01/09/1963, (D) 01/16/1961, (E) 03/09/1960, (F) 01/09/1961.",
+                "answer": "F",
+                "reasoning_prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date one week from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 02/28/1961, (B) 07/09/1960, (C) 01/09/1963, (D) 01/16/1961, (E) 03/09/1960, (F) 01/09/1961.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nThe 5-year anniversary is Jan 2, 1963. \nOne week from that would be Jan 9, 1963. \n\nTherefore, the answer is C.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date one week from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 02/28/1961, (B) 07/09/1960, (C) 01/09/1963, (D) 01/16/1961, (E) 03/09/1960, (F) 01/09/1961.\nA: Let's think step by step. \n\nThe 5-year anniversary is Jan 2, 1963. \nOne week from that would be Jan 9, 1963. \n\nTherefore, the answer is C.\nTherefore, the answer is",
+                "completion": " C."
+            }
+        ],
+        "341": [
+            {
+                "sample_index": 341,
+                "completion_index": 0,
+                "question": "Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date 24 hours later in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/02/1961, (B) 01/01/1961, (C) 12/03/1960, (D) 01/04/1961, (E) 01/03/1961, (F) 01/03/1964.",
+                "answer": "E",
+                "reasoning_prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date 24 hours later in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/02/1961, (B) 01/01/1961, (C) 12/03/1960, (D) 01/04/1961, (E) 01/03/1961, (F) 01/03/1964.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nThe 5-year anniversary is on Jan 2, 1963. \n\n24 hours later would be Jan 3, 1963. \n\nTherefore, the answer is (E).",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Jane and John married on Jan 2, 1958. It is their 5-year anniversary today. What is the date 24 hours later in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 01/02/1961, (B) 01/01/1961, (C) 12/03/1960, (D) 01/04/1961, (E) 01/03/1961, (F) 01/03/1964.\nA: Let's think step by step. \n\nThe 5-year anniversary is on Jan 2, 1963. \n\n24 hours later would be Jan 3, 1963. \n\nTherefore, the answer is (E).\nTherefore, the answer is",
+                "completion": " (E)."
+            }
+        ],
+        "342": [
+            {
+                "sample_index": 342,
+                "completion_index": 0,
+                "question": "On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 06/18/2016, (B) 07/16/2017, (C) 06/17/2017, (D) 12/18/2016, (E) 06/18/2017, (F) 06/18/2054.",
+                "answer": "E",
+                "reasoning_prompt": "Q: On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 06/18/2016, (B) 07/16/2017, (C) 06/17/2017, (D) 12/18/2016, (E) 06/18/2017, (F) 06/18/2054.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nMay 9th, 2017 is 05/09/2017. \n\n40 days later would be 05/19/2017. \n\nBut Jane ran out of eggs today, so it must be 05/18/2017. \n\nTherefore, the answer is (C).",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 06/18/2016, (B) 07/16/2017, (C) 06/17/2017, (D) 12/18/2016, (E) 06/18/2017, (F) 06/18/2054.\nA: Let's think step by step. \n\nMay 9th, 2017 is 05/09/2017. \n\n40 days later would be 05/19/2017. \n\nBut Jane ran out of eggs today, so it must be 05/18/2017. \n\nTherefore, the answer is (C).\nTherefore, the answer is",
+                "completion": " (C)."
+            }
+        ],
+        "343": [
+            {
+                "sample_index": 343,
+                "completion_index": 0,
+                "question": "On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 06/13/2017, (B) 08/05/2017, (C) 06/21/2017, (D) 06/18/2017, (E) 06/19/2017, (F) 06/25/2017.",
+                "answer": "E",
+                "reasoning_prompt": "Q: On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 06/13/2017, (B) 08/05/2017, (C) 06/21/2017, (D) 06/18/2017, (E) 06/19/2017, (F) 06/25/2017.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nMay 9th, 2017 is 05/09/2017. \n40 days later would be 05/29/2017. \nBut Jane ran out of eggs today, so the date tomorrow is 05/30/2017. \n\nTherefore, the answer is (C).",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date tomorrow in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 06/13/2017, (B) 08/05/2017, (C) 06/21/2017, (D) 06/18/2017, (E) 06/19/2017, (F) 06/25/2017.\nA: Let's think step by step. \n\nMay 9th, 2017 is 05/09/2017. \n40 days later would be 05/29/2017. \nBut Jane ran out of eggs today, so the date tomorrow is 05/30/2017. \n\nTherefore, the answer is (C).\nTherefore, the answer is",
+                "completion": " (C)."
+            }
+        ],
+        "344": [
+            {
+                "sample_index": 344,
+                "completion_index": 0,
+                "question": "On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date yesterday in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 06/26/2017, (B) 06/25/2017, (C) 06/17/2017, (D) 06/17/2111, (E) 07/18/2017, (F) 07/13/2017.",
+                "answer": "C",
+                "reasoning_prompt": "Q: On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date yesterday in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 06/26/2017, (B) 06/25/2017, (C) 06/17/2017, (D) 06/17/2111, (E) 07/18/2017, (F) 07/13/2017.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nMay 9th, 2017 is 05/09/2017. \n40 days later would be 05/19/2017. \nBut Jane ate one egg per day, so she would have eaten her last egg on 05/18/2017. \nTherefore, the day before, or 05/17/2017, is the answer. \n\nThe answer is (C).",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date yesterday in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 06/26/2017, (B) 06/25/2017, (C) 06/17/2017, (D) 06/17/2111, (E) 07/18/2017, (F) 07/13/2017.\nA: Let's think step by step. \n\nMay 9th, 2017 is 05/09/2017. \n40 days later would be 05/19/2017. \nBut Jane ate one egg per day, so she would have eaten her last egg on 05/18/2017. \nTherefore, the day before, or 05/17/2017, is the answer. \n\nThe answer is (C).\nTherefore, the answer is",
+                "completion": " (C)."
+            }
+        ],
+        "345": [
+            {
+                "sample_index": 345,
+                "completion_index": 0,
+                "question": "On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date 10 days ago in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 05/15/2017, (B) 06/08/2017, (C) 06/22/2017, (D) 06/06/2017, (E) 06/14/2017, (F) 06/08/1933.",
+                "answer": "B",
+                "reasoning_prompt": "Q: On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date 10 days ago in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 05/15/2017, (B) 06/08/2017, (C) 06/22/2017, (D) 06/06/2017, (E) 06/14/2017, (F) 06/08/1933.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nMay 9th, 2017 is 05/09/2017. \n40 days ago would be 40 days before 05/09/2017, or 04/19/2017. \n10 days before that would be 10 days before 04/19/2017, or 04/09/2017. \n\nTherefore, the answer is (D) 06/06/2017.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date 10 days ago in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 05/15/2017, (B) 06/08/2017, (C) 06/22/2017, (D) 06/06/2017, (E) 06/14/2017, (F) 06/08/1933.\nA: Let's think step by step. \n\nMay 9th, 2017 is 05/09/2017. \n40 days ago would be 40 days before 05/09/2017, or 04/19/2017. \n10 days before that would be 10 days before 04/19/2017, or 04/09/2017. \n\nTherefore, the answer is (D) 06/06/2017.\nTherefore, the answer is",
+                "completion": " (D) 06/06/2017."
+            }
+        ],
+        "346": [
+            {
+                "sample_index": 346,
+                "completion_index": 0,
+                "question": "On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date a month ago in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 05/19/2017, (B) 10/18/2017, (C) 06/24/2017, (D) 05/11/2017, (E) 05/04/2017, (F) 05/18/2017.",
+                "answer": "F",
+                "reasoning_prompt": "Q: On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date a month ago in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 05/19/2017, (B) 10/18/2017, (C) 06/24/2017, (D) 05/11/2017, (E) 05/04/2017, (F) 05/18/2017.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nMay 9th, 2017 is the starting point. \n40 eggs divided by 30 days in a month equals 1.33 eggs per day. \n1.33 eggs per day for 30 days equals 40 eggs. \n\nTherefore, the answer is 05/04/2017.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date a month ago in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 05/19/2017, (B) 10/18/2017, (C) 06/24/2017, (D) 05/11/2017, (E) 05/04/2017, (F) 05/18/2017.\nA: Let's think step by step. \n\nMay 9th, 2017 is the starting point. \n40 eggs divided by 30 days in a month equals 1.33 eggs per day. \n1.33 eggs per day for 30 days equals 40 eggs. \n\nTherefore, the answer is 05/04/2017.\nTherefore, the answer is",
+                "completion": " (E) 05/04/2017."
+            }
+        ],
+        "347": [
+            {
+                "sample_index": 347,
+                "completion_index": 0,
+                "question": "On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date one year ago from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 06/18/2016, (B) 06/25/2016, (C) 06/22/2016, (D) 09/18/2016, (E) 06/18/2030, (F) 07/18/2015.",
+                "answer": "A",
+                "reasoning_prompt": "Q: On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date one year ago from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 06/18/2016, (B) 06/25/2016, (C) 06/22/2016, (D) 09/18/2016, (E) 06/18/2030, (F) 07/18/2015.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nMay 9th, 2017 is 5/9/2017. \n\nIf we go back one year from that, it would be 5/9/2016. \n\nBut Jane ate one egg per day, so 40 days before 5/9/2016 would be 4/19/2016. \n\nTherefore, the answer is 4/19/2016, or (C).",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date one year ago from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 06/18/2016, (B) 06/25/2016, (C) 06/22/2016, (D) 09/18/2016, (E) 06/18/2030, (F) 07/18/2015.\nA: Let's think step by step. \n\nMay 9th, 2017 is 5/9/2017. \n\nIf we go back one year from that, it would be 5/9/2016. \n\nBut Jane ate one egg per day, so 40 days before 5/9/2016 would be 4/19/2016. \n\nTherefore, the answer is 4/19/2016, or (C).\nTherefore, the answer is",
+                "completion": " (C)."
+            }
+        ],
+        "348": [
+            {
+                "sample_index": 348,
+                "completion_index": 0,
+                "question": "On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date one week ago from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 06/11/1923, (B) 11/11/2016, (C) 06/11/2017, (D) 06/07/2017, (E) 07/02/2017, (F) 07/11/2017.",
+                "answer": "C",
+                "reasoning_prompt": "Q: On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date one week ago from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 06/11/1923, (B) 11/11/2016, (C) 06/11/2017, (D) 06/07/2017, (E) 07/02/2017, (F) 07/11/2017.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nJane bought 40 eggs on May 9th, 2017. \n\nThat means that one week ago from today would be May 2nd, 2017. \n\nThe answer is 05/02/2017.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date one week ago from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 06/11/1923, (B) 11/11/2016, (C) 06/11/2017, (D) 06/07/2017, (E) 07/02/2017, (F) 07/11/2017.\nA: Let's think step by step. \n\nJane bought 40 eggs on May 9th, 2017. \n\nThat means that one week ago from today would be May 2nd, 2017. \n\nThe answer is 05/02/2017.\nTherefore, the answer is",
+                "completion": " D."
+            }
+        ],
+        "349": [
+            {
+                "sample_index": 349,
+                "completion_index": 0,
+                "question": "On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date one week from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 06/25/2017, (B) 05/25/2018, (C) 06/25/1964, (D) 06/24/2017, (E) 07/25/2017, (F) 06/25/2063.",
+                "answer": "A",
+                "reasoning_prompt": "Q: On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date one week from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 06/25/2017, (B) 05/25/2018, (C) 06/25/1964, (D) 06/24/2017, (E) 07/25/2017, (F) 06/25/2063.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nMay 9th, 2017 is 5/9/2017. \n\n40 days from that date is 6/18/2017. \n\nHowever, Jane ate one egg per day, so she would have eaten her last egg on 6/17/2017, one day before. \n\nTherefore, one week from today, or 6/17/2017, is 6/24/2017. \n\nThe answer is D.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date one week from today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 06/25/2017, (B) 05/25/2018, (C) 06/25/1964, (D) 06/24/2017, (E) 07/25/2017, (F) 06/25/2063.\nA: Let's think step by step. \n\nMay 9th, 2017 is 5/9/2017. \n\n40 days from that date is 6/18/2017. \n\nHowever, Jane ate one egg per day, so she would have eaten her last egg on 6/17/2017, one day before. \n\nTherefore, one week from today, or 6/17/2017, is 6/24/2017. \n\nThe answer is D.\nTherefore, the answer is",
+                "completion": " D."
+            }
+        ],
+        "350": [
+            {
+                "sample_index": 350,
+                "completion_index": 0,
+                "question": "On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date 24 hours later in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 07/17/2017, (B) 06/20/2017, (C) 06/18/2017, (D) 06/19/2017, (E) 07/10/2017, (F) 06/15/2017.",
+                "answer": "D",
+                "reasoning_prompt": "Q: On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date 24 hours later in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 07/17/2017, (B) 06/20/2017, (C) 06/18/2017, (D) 06/19/2017, (E) 07/10/2017, (F) 06/15/2017.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nMay 9th, 2017: Jane buys 40 eggs. \nMay 10th, 2017: Jane eats 1 egg. \nMay 11th, 2017: Jane eats 1 egg. \n\nAnd so on, until...\n\nMay 24th, 2017: Jane eats her last egg. \n\nMay 25th, 2017: Jane has no more eggs. \n\nTherefore, the correct answer is (D) 06/19/2017.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: On May 9th, 2017 Jane bought 40 eggs. She ate one per day. Today she ran out of eggs. What is the date 24 hours later in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 07/17/2017, (B) 06/20/2017, (C) 06/18/2017, (D) 06/19/2017, (E) 07/10/2017, (F) 06/15/2017.\nA: Let's think step by step. \n\nMay 9th, 2017: Jane buys 40 eggs. \nMay 10th, 2017: Jane eats 1 egg. \nMay 11th, 2017: Jane eats 1 egg. \n\nAnd so on, until...\n\nMay 24th, 2017: Jane eats her last egg. \n\nMay 25th, 2017: Jane has no more eggs. \n\nTherefore, the correct answer is (D) 06/19/2017.\nTherefore, the answer is",
+                "completion": " D."
+            }
+        ],
+        "351": [
+            {
+                "sample_index": 351,
+                "completion_index": 0,
+                "question": "Today is the last day of the first quarter of 2008. What is the date today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 08/31/2008, (B) 05/05/2008, (C) 10/31/2008, (D) 03/24/2008, (E) 03/31/2008, (F) 12/23/2007.",
+                "answer": "E",
+                "reasoning_prompt": "Q: Today is the last day of the first quarter of 2008. What is the date today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 08/31/2008, (B) 05/05/2008, (C) 10/31/2008, (D) 03/24/2008, (E) 03/31/2008, (F) 12/23/2007.\nA: Let's think step by step.",
+                "reasoning_completion": " \n\nThe first quarter of 2008 is January 1st-March 31st. \n\nToday is the last day of the first quarter of 2008. \n\nTherefore, today is March 31st, 2008. \n\nThe answer is E.",
+                "reasoning_finish_reason": "stop",
+                "prompt": "Q: Today is the last day of the first quarter of 2008. What is the date today in MM/DD/YYYY?\nWhich choice is true? Answer choices: (A) 08/31/2008, (B) 05/05/2008, (C) 10/31/2008, (D) 03/24/2008, (E) 03/31/2008, (F) 12/23/2007.\nA: Let's think step by step. \n\nThe first quarter of 2008 is January 1st-March 31st. \n\nToday is the last day of the first quarter of 2008. \n\nTherefore, today is March 31st, 2008. \n\nThe answer is E.\nTherefore, the answer is",
+                "completion": " E."
+            }
+        ]
+    }
+}
