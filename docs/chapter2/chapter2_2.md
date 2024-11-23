@@ -1,288 +1,65 @@
-## 2.2：经典的量化方法（How-part1:PTQ）
-第二章讲经典的PTQ量化LLM.int8，SQ，GPTQ（涵盖weight-only 和 weight-act）-方式：原理讲解+代码，
+# 白盒蒸馏
 
-#### 一、PTQ量化LLM.int8方式
+## 1. 什么是白盒蒸馏
+对于开源的大模型，我们可以获得一切的模型推理时数据，包括token输出的概率分布。这种能够获得token输出概率分布的场景，可以被看作“白盒”场景。反之是黑盒场景。利用白盒所提供的数据进行蒸馏，是白盒蒸馏。
 
-PTQ（Post-Training Quantization）是一种在模型训练后进行的量化方法，通过这种方法可以在不重新训练模型的情况下，将模型的权重和激活值从浮点表示（如FP32）转换为低精度表示（如INT8），从而减少模型的存储大小和计算需求，提高推理性能。
+<!-- ## 何时使用白盒蒸馏
+传统的蒸馏针对的场景是分类任务，或者是让一个小模型模仿黑盒LLM（如GPT4）的API。那么如何将白盒LLM的知识传授给小模型呢？这其实是有专门的方法的，也就是这一章要讲的白盒蒸馏。
 
-##### 1. INT8原理讲解
+如何模型在输出下一个token之前，会先输出一个token的概率分布，然后从中采样一个token作为输出token。如果能够获取token的概率分布，那么就可以做白盒蒸馏，否则只能黑盒蒸馏。 -->
 
-PTQ量化的核心思想是将浮点数通过缩放因子（scale）映射到整数范围内，从而减少存储和计算开销。在INT8量化中，通常将浮点数映射到[-128, 127]范围内的8位整数。
+接下来我们会介绍两种经典的大模型白盒蒸馏的方法，MiniLLM和GKD。
 
-量化过程包括以下几个步骤：
 
-- **确定缩放因子**：缩放因子（scale）是通过浮点数中的最大值和最小值计算得到的，它决定了浮点数到整数的映射关系。
-- **量化**：将浮点数除以缩放因子，四舍五入到最近的整数，并限制在[-128, 127]范围内。
-- **反量化**：在推理过程中，需要将量化后的整数重新转换为浮点数，以便进行后续计算。反量化是通过将量化后的整数乘以缩放因子来实现的。
+# 2. MiniLLM
 
-在实际应用中，除了权重外，还需要对激活值进行量化。激活值的量化通常在推理过程中动态进行，即在每一层计算前将激活值量化为INT8，然后在计算完成后将结果反量化为FP32，以便传递给下一层。
+大模型能力的强大也伴随着参数量的膨胀，为了以合理的成本部署大模型，如何将大模型的知识蒸馏到小模型是一个问题。从前，面对有限的状态空间（比如有限的分类类别），教师模型和学生模型的参数量都足以学习每一种类别的模式；而在大模型自回归生成的场景下，学生模型参数变少后，天然地失去了和大模型同等的表达能力，从而传统的蒸馏可能效果不佳。
 
-##### 2. INT8代码实现
+<!-- 传统的知识蒸馏是面向分类等有限状态空间设计的，通过最小化前向KL散度，就能够让学生模型（小模型）学到有限的状态空闲（比如有限的类别）。 -->
 
-以下是一个简单的PTQ量化INT8的示例代码，使用PyTorch框架：
+<!-- 这种蒸馏方式仍然适合大语言模型吗？大语言模型本质上是做自回归生成任务，每一步都是一个状态空间巨大的分类任务，每下一步都会基于之前的分类结果。MiniLLM的论文中指出，传统蒸馏方式不再适用与大语言模型蒸馏。 -->
 
-```python
-import torch
-import torch.nn as nn
-import torch.quantization as quant
-import torch.optim as optim
-import torch.nn.functional as F
+<!-- 但是大语言模型本质上做的是自回归式生成任务，传统的知识蒸馏方法不再适用。 -->
 
-# 定义一个简单的卷积神经网络模型
-class SimpleCNN(nn.Module):
-    def __init__(self):
-        super(SimpleCNN, self).__init__()
-        self.conv1 = nn.Conv2d(1, 32, 3, 1)
-        self.conv2 = nn.Conv2d(32, 64, 3, 1)
-        self.fc1 = nn.Linear(9216, 128)
-        self.fc2 = nn.Linear(128, 10)
+MiniLLM是一种针对生成式语言模型的全新的KD方法，它是一种白盒蒸馏方法，这种方法使用逆向KL散度，理论上使得学生模型模仿教师模型概率较大的生成结果，忽略教师模型概率不大的生成结果。这样做一定程度放弃了模型生成的多样性，从而实现高性价比的LLM部署落地。
 
-    def forward(self, x):
-        x = F.relu(self.conv1(x))
-        x = F.max_pool2d(x, 2)
-        x = F.relu(self.conv2(x))
-        x = F.max_pool2d(x, 2)
-        x = torch.flatten(x, 1)
-        x = F.relu(self.fc1(x))
-        x = self.fc2(x)
-        return F.log_softmax(x, dim=1)
+## 2.1 前向KL散度
+前向KL散度是传统蒸馏时使用的损失函数，这里我们再复习一下它的概念：
 
-# 初始化模型
-model = SimpleCNN()
-
-# 准备校准数据集（用于收集统计信息）
-calibration_dataloader = ...  # 这里需要替换为实际的校准数据集加载器
-
-# 模型校准
-model.eval()
-with torch.no_grad():
-    for inputs, _ in calibration_dataloader:
-        model(inputs)
-
-# 准备量化配置
-model.qconfig = quant.get_default_qconfig('fbgemm')
-quant.prepare(model, inplace=True)
-
-# 转换模型为量化模式
-model.cpu()
-quant.convert(model, inplace=True)
-
-# 保存量化后的模型
-torch.save(model.state_dict(), 'quantized_model.pth')
-```
+假设老师分布为$p$, 学生分布为$q_\theta$, $\theta$ 是学生模型的参数。
 
-在实际应用中，量化过程通常更加复杂，需要仔细处理模型的每一层，以确保量化后的模型能够正确运行并保持良好的性能。
-
-#### 二、SmoothQuant（SQ）量化方式
+前向KL散度可以看成是两个分布相似程度的定义（注意KL散度具有不对称性，不是距离）：
 
-SmoothQuant是一种旨在减少量化过程中信息损失的量化方法。它通过平滑量化过程，使得量化后的模型能够更好地保留原始模型的性能。
+$KL(p||q_\theta) = \sum_i p(i)log\frac{p(i)}{q_\theta(i)}$。
 
-##### 1. SQ原理讲解
+<!-- 一般都要最小化KL散度。 -->
 
-SmoothQuant的核心思想是在量化过程中引入平滑性约束，以减少量化误差。这通常通过优化一个包含量化误差和平滑性约束的损失函数来实现。
+从定义可以看出，在$p$分布为$0$的地方，$q$分布无论为多少，都不影响这一项为$0$，所以当我们最小化前向KL散度时，$q$会在老师概率分布小的地方分配大的概率。对应到大模型生成上，就是在老师模型输出可能性很小的地方，学生模型却放大了这种可能性，显然这是不符合模型生成预期的。
 
-在SmoothQuant中，通常使用以下步骤进行量化：
+## 2.2 逆向KL散度
 
-- **收集统计信息**：使用校准数据集收集模型的权重和激活值的统计信息，如最大值、最小值等。
-- **计算量化参数**：根据收集到的统计信息，计算量化所需的缩放因子和零点（zero-point）。
-- **平滑量化**：在量化过程中引入平滑性约束，以减少量化误差。这可以通过在量化损失函数中添加平滑性正则项来实现。
-- **模型校准**：使用量化后的模型和校准数据集进行微调，以优化量化效果。
+reversed KL:
 
-##### 2. SQ代码实现
+$$KL(q_\theta ||p) = \sum_i q_\theta(i)log\frac{q_\theta(i)}{p(i)} = -\sum_i q_\theta(i)log\frac{p(i)}{q_\theta(i)}$$
 
-SmoothQuant的具体实现通常依赖于特定的量化框架和库。以下是一个简化的示例代码，展示了如何在PyTorch中实现类似SmoothQuant的量化过程：
+蒸馏时，使用逆向KL散度代替前向KL散度。最小化逆向KL散度时，老师分布大的地方，学生分布也同步变大，而老师分布小的地方，学生分布会更小。下面这张经典的图片可以看出前向和后向KL的差异。
 
-```python
-import torch
-import torch.nn as nn
-import torch.quantization as quant
-import torch.optim as optim
+![images\v2-543575cc0a0efdaccbd1d24570b8e9e4_b.png](images\v2-543575cc0a0efdaccbd1d24570b8e9e4_b.png)
 
-# 定义一个简单的神经网络模型
-class SimpleNet(nn.Module):
-    def __init__(self):
-        super(SimpleNet, self).__init__()
-        self.fc1 = nn.Linear(784, 128)
-        self.fc2 = nn.Linear(128, 10)
-
-    def forward(self, x):
-        x = torch.flatten(x, 1)
-        x = F.relu(self.fc1(x))
-        x = self.fc2(x)
-        return F.log_softmax(x, dim=1)
+这样直观上看，使用逆向KL散度更加符合生成模型的场景。
 
-# 初始化模型
-model = SimpleNet()
 
-# 准备校准数据集（用于收集统计信息）
-calibration_dataloader = ...  # 这里需要替换为实际的校准数据集加载器
 
-# 收集权重和激活值的统计信息
-def collect_stats(model, dataloader):
-    act_max = {}
-    act_min = {}
-    for inputs, _ in dataloader:
-        model(inputs)
-        for name, module in model.named_modules():
-            if isinstance(module, nn.Linear):
-                weight = module.weight.detach().cpu().numpy()
-                act_max[name + '.weight'] = np.max(weight)
-                act_min[name + '.weight'] = np.min(weight)
-                # 注意：这里省略了激活值的统计，实际中需要添加
-    return act_max, act_min
+## 2.3 基于策略梯度的优化
+MiniLLM的论文中提出了另一个新颖的视角——逆向KL其实可以等价于强化学习，并进行了公式推导。策略梯度是一种强化学习算法：将期望的回报写成一个可导的函数，然后求使得这个函数的最大的策略（比如使用梯度上升）。
 
-act_max, act_min = collect_stats(model, calibration_dataloader)
-
-# 准备量化配置
-model.qconfig = quant.get_default_qconfig('fbgemm')
-quant.prepare(model, inplace=True)
-
-# 自定义量化函数，引入平滑性约束
-def smooth_quantize(tensor, scale, zero_point, smooth_factor=0.1):
-    quantized = torch.round(tensor / scale) - zero_point
-    quantized = torch.clamp(quantized, min=-128, max=127).to(tensor.dtype)
-    smoothed = tensor + smooth_factor * (quantized.to(tensor.dtype) * scale + zero_point - tensor)
-    return quantized, smoothed
-
-# 对模型进行量化，并引入平滑性约束
-def quantize_model(model, act_max, act_min):
-    for name, module in model.named_modules():
-        if isinstance(module, nn.Linear):
-            weight = module.weight.detach().cpu().numpy()
-            scale = (act_max[name + '.weight'] - act_min[name + '.weight']) / 255.0
-            zero_point = 0  # 简化处理，实际中需要计算
-            quantized_weight, smoothed_weight = smooth_quantize(
-                torch.tensor(weight, dtype=torch.float32), scale, zero_point
-            )
-            module.weight.data = torch.tensor(smoothed_weight, dtype=torch.float32).to(module.weight.device)
-            # 注意：这里省略了偏置和激活值的量化，实际中需要添加
-    return model
-
-quantized_model = quantize_model(model, act_max, act_min)
-
-# 保存量化后的模型
-torch.save(quantized_model.state_dict(), 'smooth_quantized_model.pth')
-```
-
-请注意，上述代码是一个简化的示例，用于说明如何在量化过程中引入平滑性约束。在实际应用中，量化过程通常更加复杂，需要仔细处理模型的每一层，并确保量化后的模型能够正确运行并保持良好的性能。
-
-#### 三、GPTQ量化方式
-
-GPTQ（Gradient-based Post-Training Quantization）是一种基于梯度的训练后量化方法。它通过最小化量化前后模型输出的误差来优化量化参数，从而提高量化模型的性能。
-
-##### 1. 原理讲解
-GPTQ的核心在于最小化量化引入的输出误差，它通过逐层处理模型的权重矩阵，并利用一小部分校准数据来最小化量化前后模型输出的差异。
-
-1. **收集校准数据**：
-   GPTQ从训练数据或相关数据集中抽取一小部分样本作为校准数据。这些数据用于在后量化过程中评估量化误差，并帮助优化量化参数。
-
-2. **逐层处理**：
-   GPTQ对模型的每一层进行独立量化，避免全局优化的复杂度。逐层量化允许对不同层采用不同的量化策略，以最小化量化带来的误差。
-
-3. **最小化输出误差**：
-   对于每一层，GPTQ寻找最佳的量化权重，使得在校准数据上的输出误差最小。这通常涉及对量化误差进行建模，并通过优化算法找到最优的量化参数。
-
-4. **更新权重**：
-   将量化后的权重替换原始权重，完成量化过程。
-
-GPTQ的量化过程可以分为以下几个步骤：
-
-- **计算Hessian矩阵**：
-  Hessian矩阵是二阶导数矩阵，用于描述损失函数相对于模型参数的二阶变化率。GPTQ利用Hessian矩阵来估计量化误差，并优化量化参数。
-
-- **逐层weight量化**：
-  GPTQ对每一层的权重矩阵进行量化。量化过程涉及将浮点数权重转换为低比特的整数表示，同时尽可能保持模型的性能。
-
-- **保存量化weight**：
-  完成量化后，GPTQ保存量化后的权重，以便在推理时使用。
-
-在量化过程中，GPTQ采用了多种技术来减少量化误差并提高模型性能：
-
-- **误差最小化原理**：
-  GPTQ通过最小化量化引入的输出误差来实现高精度量化。这通常涉及对量化误差进行建模，并通过优化算法找到最优的量化参数。
-
-- **逐列优化**：
-  为了降低计算复杂度，GPTQ采用了逐列优化的方法。将权重矩阵的列表示为wi，对每一列进行量化，同时考虑之前列量化引入的误差累积。
-
-- **量化策略**：
-  GPTQ可以采用多种量化策略，如对称量化、非对称量化、均匀量化等。同时，量化器需要满足硬件的限制，确保量化后的值在表示范围内。
-
-- **量化感知训练（Quantization-Aware Training, QAT）**：
-  在训练模型时，GPTQ模拟了量化过程，使模型能够在训练时就适应量化的精度限制，从而减少推理时的性能损失。这种方法通常在训练结束的最后阶段进行。
-
-##### 2. GPTQ的代码实现
-
-以下是一个基于PyTorch和Transformers库的GPTQ量化示例代码。这个示例代码演示了如何对GPT-2模型进行4-bit量化，并保存量化后的模型。
-
-```python
-# 安装必要的库
-!pip install transformers
-!pip install accelerate
-!pip install auto-gptq  # 假设auto-gptq是一个提供GPTQ功能的库，实际中可能需要使用其他库或自行实现GPTQ功能
-
-# 导入必要的模块
-import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
-from auto_gptq import AutoGPTQForCausalLM, BaseQuantizeConfig  # 假设auto_gptq提供了GPTQ的量化配置和模型
-
-# 指定模型名称或路径
-model_name_or_path = "gpt2"
-
-# 定义量化配置
-quantize_config = BaseQuantizeConfig(
-    bits=4,                # 量化到4-bit
-    group_size=128,        # 分组大小，通常为128或None
-    desc_act=False,        # 是否禁用激活函数的量化
-)
-
-# 加载模型并进行量化
-model = AutoGPTQForCausalLM.from_pretrained(
-    model_name_or_path,
-    quantize_config=quantize_config,
-    use_triton=False  # 如果安装了Triton加速器，可设为True
-)
-
-# 加载分词器
-tokenizer = AutoTokenizer.from_pretrained(model_name_or_path, use_fast=True)
-
-# 保存量化后的模型
-save_directory = "gpt2-quantized"
-model.save_quantized(save_directory)
-tokenizer.save_pretrained(save_directory)
-
-# 推理测试
-# 加载量化后的模型
-model_quantized = AutoGPTQForCausalLM.from_quantized(
-    save_directory,
-    use_safetensors=True,
-    device="cuda:0" if torch.cuda.is_available() else "cpu",
-    use_triton=False,
-)
-
-# 加载分词器
-tokenizer = AutoTokenizer.from_pretrained(save_directory, use_fast=True)
-
-# 准备输入
-input_text = "今天天气如何?"
-inputs = tokenizer(input_text, return_tensors="pt")
-
-# 将输入移动到模型设备
-inputs = inputs.to(model_quantized.device)
-
-# 生成输出
-with torch.no_grad():
-    output_ids = model_quantized.generate(
-        **inputs,
-        max_new_tokens=50,
-        do_sample=True,
-        temperature=0.7,
-    )
-
-# 解码输出
-output_text = tokenizer.decode(output_ids[0], skip_special_tokens=True)
-print(output_text)
-```
-
-**注意**：上述代码中的`auto_gptq`库和`AutoGPTQForCausalLM`类是假设存在的，实际中可能需要使用其他库或自行实现GPTQ功能。此外，代码中的量化配置和模型加载方式也可能需要根据实际使用的库和模型进行调整。
-
-在实际应用中，GPTQ的量化过程可能涉及更多的细节和优化。例如，可能需要计算Hessian矩阵的逆矩阵，这通常是一个计算量很大的操作。为了降低计算复杂度，GPTQ可能会采用一些近似方法或优化算法来加速量化过程。
+<!-- 虽然直观上使用逆向KL散度就能更好地蒸馏模型，但实际在最优化损失函数时会遇到对短生成的偏爱以及reward hacking等问题。 -->
+
+由于这部分涉及较多数学公式推导和强化学习，有兴趣的同学可以查看论文自行学习。
+
+
+
+## 参考资料
+- MiniLLM: Knowledge Distillation of Large Language Models
+- https://github.com/microsoft/LMOps/tree/main/minillm 
+- https://blog.csdn.net/ningmengzhihe/article/details/130679350
