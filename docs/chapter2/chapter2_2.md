@@ -44,7 +44,7 @@ $$KL(q_\theta ||p) = \sum_i q_\theta(i)log\frac{q_\theta(i)}{p(i)} = -\sum_i q_\
 
 蒸馏时，使用逆向KL散度代替前向KL散度。最小化逆向KL散度时，老师分布大的地方，学生分布也同步变大，而老师分布小的地方，学生分布会更小。下面这张经典的图片可以看出前向和后向KL的差异。
 
-![images\v2-543575cc0a0efdaccbd1d24570b8e9e4_b.png](images\v2-543575cc0a0efdaccbd1d24570b8e9e4_b.png)
+![images/v2-543575cc0a0efdaccbd1d24570b8e9e4_b.png](images/v2-543575cc0a0efdaccbd1d24570b8e9e4_b.png)
 
 这样直观上看，使用逆向KL散度更加符合生成模型的场景。
 
