@@ -18,7 +18,7 @@
 以下是一个简单的ICL例子：
 
 <div align="center">
-    <img src="image-1.png" alt="alt text" width="550"/>
+    <img src="images/image-1.png" alt="alt text" width="550"/>
 </div>
 
 模型成功模仿了示例中的答题思路和答题格式。
@@ -45,7 +45,7 @@ y_3
 
 训练之前，我们会收集如下含有提示词和标签的数据：
 <div align="center">
-    <img src="image-3.png" alt="alt text" width="750"/>
+    <img src="images/image-3.png" alt="alt text" width="750"/>
 </div>
 
 ## 1.2 ICL 微调
@@ -115,7 +115,7 @@ $$
 \mathcal{L}^{LM}_{soft} = \Sigma_{x\in \mathcal{D}_{LM}} P(x|\theta^t)logP(x|\theta^s)
 $$
 这里的训练数据就是一般的网络文本：
-![alt text](image-4.png)
+![alt text](images/image-4.png)
 
 ### 硬损失
 除了学习老师的经验，学生还要学习ground-truth，这就是硬损失的意义。
@@ -156,22 +156,22 @@ $$
 
 
 ## 2.2 Self-Instruct 范式
-![alt text](image-5.png)
+![alt text](images/image-5.png)
 
 要使用Self-Instruct生成数据，我们只需要推理一个经过预训练的大模型（不要经过指令微调哦）就可以了。这是因为预训练的大预言模型具有续写的能力，利用这个能力可以收集新的数据。
 
 首先，人工设计若干任务，针对每个任务，撰写一个初始数据。这形成了初始的数据池。
 
 然后，随机从数据池中抽取8条指令，让大模型续写更多的指令。可以使用如下的模板：
-![alt text](image-6.png)
+![alt text](images/image-6.png)
 生成指令，直到遇到“Task 16”字符串或达到最大生成字数或模型自动停止生成。
 
 生成指令之后，下一步，就应该生成输入和输出了。但是在此之前，先让大模型自己判断这个生成的每一个指令是否是分类问题。这里还是利用了续写能力。
-![alt text](image-7.png)
+![alt text](images/image-7.png)
 
 对于是分类问题的任务，先生成输出，在基于输出生成输入；而对于非分类问题，先生成输入，基于输入生成输出。
-![alt text](image-9.png)
-![alt text](image-8.png)
+![alt text](images/image-9.png)
+![alt text](images/image-8.png)
 
 
 ## 2.3 指令跟随蒸馏实践
