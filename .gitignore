@@ -161,3 +161,5 @@ cython_debug/
 .DS_Store
 docs/chapter2/models/GPT-2/*
 MetaICL/
+data/
+output/
