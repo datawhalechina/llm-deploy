@@ -17,9 +17,7 @@
 
 以下是一个简单的ICL例子：
 
-<div align="center">
-    <img src="images/image-1.png" alt="alt text" width="550"/>
-</div>
+![alt_text](images/image-1.png)
 
 模型成功模仿了示例中的答题思路和答题格式。
 
@@ -44,9 +42,9 @@ y_3
 即只要在prompt前加几个例子，模型就能学到其中的格式和逻辑，从而不用更新参数就能学习。
 
 训练之前，我们会收集如下含有提示词和标签的数据：
-<div align="center">
-    <img src="images/image-3.png" alt="alt text" width="750"/>
-</div>
+
+
+![alt_text](images/image-3.png)
 
 ## 1.2 ICL 微调
 
