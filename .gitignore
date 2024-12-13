@@ -163,3 +163,5 @@ docs/chapter2/models/GPT-2/*
 MetaICL/
 data/
 output/
+
+docs/chapter2/code/BabyLlama/models/*

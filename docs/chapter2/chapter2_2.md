@@ -1,7 +1,7 @@
 # 白盒蒸馏
 
 ## 1. 什么是白盒蒸馏
-对于开源的大模型，我们可以获得一切的模型推理时数据，包括token输出的概率分布。这种能够获得token输出概率分布的场景，可以被看作“白盒”场景。反之是黑盒场景。利用白盒所提供的数据进行蒸馏，是白盒蒸馏。
+白盒蒸馏是指在蒸馏过程中使用到教师模型的参数或 logits 的 蒸馏技术[2].
 
 接下来我们会介绍经典的白盒蒸馏方法和代码实现。
 
@@ -59,6 +59,7 @@ BabyLlama的代码包含了
 
 
 ## 参考资料
-- MiniLLM: Knowledge Distillation of Large Language Models
-- https://github.com/microsoft/LMOps/tree/main/minillm 
-- https://blog.csdn.net/ningmengzhihe/article/details/130679350
+1. MiniLLM: Knowledge Distillation of Large Language Models
+2. Efficient Large Language Models: A Survey
+3. https://github.com/microsoft/LMOps/tree/main/minillm 
+4. https://blog.csdn.net/ningmengzhihe/article/details/130679350
