@@ -30,7 +30,10 @@ class BabylmDataset(Dataset):
             print(f"Loading data from {tokenized_file}")
             self.data = torch.load(tokenized_file)
             print("🔥", "数据集总大小:", len(self.data))
-            self.data = self.data[:int((len(self.data) / 40 ))]
+            if "train" in data_dir:
+                self.data = self.data[:int((len(self.data) / 45 ))]
+            if "dev" in data_dir:
+                self.data = self.data[:int((len(self.data) / 200 ))]
             print("🔥", "为了缩短训练时间，这里缩减为:", len(self.data))
         else:
             data = []
