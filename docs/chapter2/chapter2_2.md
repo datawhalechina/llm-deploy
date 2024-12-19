@@ -47,19 +47,45 @@ MiniLLM的论文中提出了另一个新颖的视角——逆向KL其实可以�
 由于这部分涉及较多数学公式推导和强化学习，有兴趣的同学可以查看论文自行学习。
 
 # 3. BabyLlama（实践）
-[BabyLlama](http://arxiv.org/abs/2308.02019)将蒸馏看作一种提高训练样本利用效率的有效方式。作为代码实践的例子，我们将看到它的蒸馏损失函数使用到了教师模型的soft-labels。
+[BabyLlama](http://arxiv.org/abs/2308.02019) 将小模型蒸馏直接应用到了大模型上。它的损失函数是以下两种损失的加权和：
+- 和硬损失的交叉熵
+- 和软损失的KL散度
 
-BabyLlama的代码包含了 
-1. 数据清洗和tokenizer训练
-2. 教师模型训练
-3. 蒸馏学生模型
+在code/BabyLlama/3.distill.ipynb中可以看到它的损失函数：
+```python
+def compute_loss(self, model, inputs, return_outputs=False):
+        # 硬损失，即和ground truth的交叉熵
+        outputs_student = model(**inputs)
+        student_loss = outputs_student.loss
 
-但实际上白盒蒸馏也可以使用现成的开源模型和tokenizer。
+        # compute teacher output
+        with torch.no_grad():
+            all_teacher_logits = []
+            for teacher in self.teachers:
+                outputs_teacher = teacher(**inputs)
+                all_teacher_logits.append(outputs_teacher.logits)
+            avg_teacher_logits = torch.stack(all_teacher_logits).mean(dim=0)
 
+        # assert size
+        assert outputs_student.logits.size() == avg_teacher_logits.size()
 
+        # 软损失，和教师模型输出分布的KL散度
+        loss_function = nn.KLDivLoss(reduction="batchmean")
+        loss_logits = (
+            loss_function(
+                F.log_softmax(outputs_student.logits / self.args.temperature, dim=-1),
+                F.softmax(avg_teacher_logits / self.args.temperature, dim=-1),
+            )
+            * (self.args.temperature ** 2)
+        )
+        # Return weighted student loss
+        loss = self.args.alpha * student_loss + (1.0 - self.args.alpha) * loss_logits
+        return (loss, outputs_student) if return_outputs else loss
+```
 
 ## 参考资料
 1. MiniLLM: Knowledge Distillation of Large Language Models
 2. Efficient Large Language Models: A Survey
 3. https://github.com/microsoft/LMOps/tree/main/minillm 
 4. https://blog.csdn.net/ningmengzhihe/article/details/130679350
+5. Baby Llama: knowledge distillation from an ensemble of teachers trained on a small dataset with no performance penalty
