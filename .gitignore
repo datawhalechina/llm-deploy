@@ -166,4 +166,4 @@ output/
 outputs/
 
 docs/chapter2/code/BabyLlama/models/*
-
+*.zip
