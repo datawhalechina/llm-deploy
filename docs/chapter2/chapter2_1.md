@@ -54,6 +54,10 @@ https://github.com/datawhalechina/awesome-compression/blob/main/docs/ch06/ch06.m
 
 ![](images/Figure%206.png)
 
+# 前置知识
+了解以下知识有助于接下来的学习：
+1. logits 和 软目标
+2. 监督微调（SFT技术）
 
 
 参考文献： 

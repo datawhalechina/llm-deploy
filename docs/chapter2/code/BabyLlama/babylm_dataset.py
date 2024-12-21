@@ -29,6 +29,12 @@ class BabylmDataset(Dataset):
         if tokenized_file.exists():
             print(f"Loading data from {tokenized_file}")
             self.data = torch.load(tokenized_file)
+            print("🔥", "数据集总大小:", len(self.data))
+            if "train" in data_dir:
+                self.data = self.data[:int((len(self.data) / 45 ))]
+            if "dev" in data_dir:
+                self.data = self.data[:int((len(self.data) / 200 ))]
+            print("🔥", "为了缩短训练时间，这里缩减为:", len(self.data))
         else:
             data = []
             src_files = [str(f) for f in Path(data_dir).glob("**/*")
