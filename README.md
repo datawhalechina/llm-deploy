@@ -31,7 +31,7 @@
 | :----| :---- | :---- | ----- |
 | 长琴、玉立 | 项目负责人 |  |  |
 | 茂林 | 第1章负责人 | 量化 | [链接](https://meeting.tencent.com/crm/2qdyBmG5f8) |
-| 宇菲 | 第2章负责人 | 蒸馏 |  |
+| 宇菲 | 第2章负责人 | 蒸馏 | [链接](https://meeting.tencent.com/crm/lv8wEr8d5e) |
 | 玉立 | 第3章负责人 | 剪枝 | [链接](https://meeting.tencent.com/crm/2ZdxyLYl14) |
 | 望寅 | 第4章负责人 | 低秩分解 |  |
 | 舒凡 | 第5章负责人 | 表示 | [链接](https://meeting.tencent.com/crm/NxvPbVzd7d) |
