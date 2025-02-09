@@ -39,7 +39,7 @@
 | 杨卓 | 第7章负责人 | 框架 |  |
 | 薛博阳 | 第8章负责人 | 并行 | [链接](https://meeting.tencent.com/crm/Nov91wz2eb) |
 | 张泽西 | 第9章负责人 | 并发 | [链接](https://meeting.tencent.com/crm/2YoM9MV3b7) |
-| 李太颖 | 第10章负责人 | 内存 |  |
+| 李太颖 | 第10章负责人 | 内存 | [链接](https://meeting.tencent.com/cw/2r8YoVB597) |
 
 *注：表头可自定义，但必须在名单中标明项目负责人*
 
