@@ -51,7 +51,7 @@ MiniLLM的论文中提出了另一个新颖的视角——逆向KL其实可以�
 - 和硬损失的交叉熵
 - 和软损失的KL散度
 
-在code/BabyLlama/3.distill.ipynb中可以看到它的损失函数：
+在[code/BabyLlama/3.distill.ipynb](https://github.com/datawhalechina/llm-deploy/blob/main/docs/chapter2/code/BabyLlama/3.distill.ipynb)中可以看到它的损失函数：
 ```python
 def compute_loss(self, model, inputs, return_outputs=False):
         # 硬损失，即和ground truth的交叉熵

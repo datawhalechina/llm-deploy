@@ -131,7 +131,7 @@ $$
 $$
 
 ## 1.5 实践
-参见code/ICL。
+参见[code/ICL](https://github.com/datawhalechina/llm-deploy/blob/main/docs/chapter2/code/ICL/ICL_distill.ipynb)。
 
 ## 1.6 改进方向
 模型上下文学习的性能和上下文中的例子质量紧密相关，所以有人研究专门设计了一个例子检索器，检索高质量的示例[6]。
@@ -209,7 +209,7 @@ $$
 ## 步骤3：实践
 正式的微调Loss函数是交叉熵损失。
 
-参见code/CoT.
+参见[code/CoT](https://github.com/datawhalechina/llm-deploy/blob/main/docs/chapter2/code/CoT/CoT_distill.ipynb).
 
 
 

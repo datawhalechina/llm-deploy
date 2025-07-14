@@ -25,6 +25,8 @@
 
 如果你对 Datawhale 很感兴趣并想要发起一个新的项目，欢迎查看 [Datawhale 贡献指南](https://github.com/datawhalechina/DOPMC#%E4%B8%BA-datawhale-%E5%81%9A%E5%87%BA%E8%B4%A1%E7%8C%AE)。
 
+如果对于小模型压缩的原理和基础感兴趣，可以参考Datawhale开源项目[Awesome-Compression](https://github.com/datawhalechina/awesome-compression)
+
 ## 贡献者名单
 
 | 姓名 | 职责 | 简介 | 视频 |
